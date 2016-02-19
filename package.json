@@ -1,0 +1,24 @@
+{
+  "name": "nineteenth",
+  "version": "0.0.1",
+  "description": "19",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "meteor"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fukuyama/nineteenth.git"
+  },
+  "keywords": [
+    "meteor",
+    "phina.js",
+    "game"
+  ],
+  "author": "Yoshihito Fukuyama <yoshihito.fukuyama@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fukuyama/nineteenth/issues"
+  },
+  "homepage": "https://github.com/fukuyama/nineteenth#readme"
+}
