@@ -18,3 +18,10 @@ ecmascript              # Enable ECMAScript2015+ syntax in app code
 
 coffeescript
 mquandalle:jade
+less
+ian:accounts-ui-bootstrap-3
+twbs:bootstrap
+accounts-facebook
+accounts-google
+accounts-twitter
+accounts-github

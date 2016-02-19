@@ -2,10 +2,23 @@ head
   title nineteenth
 
 body
+  div.navbar.navbar-default(role='navigation')
+
+    div.navbar-header
+      a.navbar-brand(href='#') Nineteenth
+      button.navbar-toggle.collapsed(type='button',data-toggle='collapse',data-target='.navbar-collapse')
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+
+    div.navbar-collapse.collapse
+      ul.nav.navbar-nav
+        li.active
+          a(href='#') Link
+      ul.nav.navbar-nav.navbar-right
+        +loginButtons
+
   h1 Welcome to Meteor!
 
   +hello
-
-template(name="hello")
-  button Click Me
-  p You've pressed the button !{counter} times.
