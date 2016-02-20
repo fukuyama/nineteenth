@@ -1,10 +1,46 @@
-Session.setDefault 'counter', 0
 
-Template.hello.helpers
-  counter: ->
-    return Session.get 'counter'
+phina.asset.AssetLoader.assetLoadFunctions.json = (key, path) ->
+  file = phina.asset.File()
+  return file.load
+    path: path
+    dataType: 'json'
 
-Template.hello.events
-  'click button': ->
-    # increment the counter when button is clicked
-    Session.set 'counter', Session.get('counter') + 1
+phina.globalize()
+
+# メイン処理(ページ読み込み後に実行される)
+phina.main ->
+  config = {
+    query: '#main'
+  }
+  #config.$safe
+  #  title: nz.system.title
+  #  assets: nz.system.assets
+  #config.$safe nz.system.screen
+
+  run = (scenes) ->
+    # アプリケーション生成
+    app = CanvasApp(config)
+
+    # シーン設定
+    app.replaceScene ManagerScene scenes: scenes
+
+    # アプリケーション実行
+    app.run()
+    return
+
+  scene = (label, param) ->
+    if param.arguments?
+      param.arguments.$safe config
+    param.$safe
+      label:     label
+      arguments: config
+      nextLabel: 'splash'
+
+  run []
+  #run [
+  #  scene 'loading',
+  #    className: 'LoadingScene'
+  #    nextLabel: 'splash'
+  #]
+
+  return
