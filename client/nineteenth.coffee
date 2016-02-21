@@ -10,7 +10,9 @@ phina.globalize()
 # メイン処理(ページ読み込み後に実行される)
 phina.main ->
   config = {
-    query: '#main'
+    query : '#main'
+    title : 'Nineteenth'
+    fit   : false # TODO:オリジナルで作らないと
   }
   #config.$safe
   #  title: nz.system.title
@@ -36,11 +38,12 @@ phina.main ->
       arguments: config
       nextLabel: 'splash'
 
-  run []
-  #run [
-  #  scene 'loading',
-  #    className: 'LoadingScene'
-  #    nextLabel: 'splash'
-  #]
+  run [
+    scene 'title',
+      className : 'TitleScene'
+      nextLabel : 'main'
+    scene 'main',
+      className : 'MainScene'
+  ]
 
   return
