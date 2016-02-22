@@ -1,3 +1,4 @@
 Accounts.ui.config
-  requestPermissions : {}
-  extraSignupFields  : []
+  requestPermissions   : {}
+  passwordSignupFields : 'USERNAME_ONLY'
+  #extraSignupFields    : []

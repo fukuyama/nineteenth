@@ -1,18 +1,8 @@
-
-phina.asset.AssetLoader.assetLoadFunctions.json = (key, path) ->
-  file = phina.asset.File()
-  return file.load
-    path: path
-    dataType: 'json'
-
-phina.globalize()
-
-# メイン処理(ページ読み込み後に実行される)
-phina.main ->
+@startBattle = ->
   config = {
     query : '#main'
     title : 'Nineteenth'
-    fit   : false # TODO:オリジナルで作らないと
+    fit   : false # TODO:fitメソッドをオリジナルで作らないと
   }
   #config.$safe
   #  title: nz.system.title
@@ -21,10 +11,10 @@ phina.main ->
 
   run = (scenes) ->
     # アプリケーション生成
-    app = CanvasApp(config)
+    app = phina.display.CanvasApp(config)
 
     # シーン設定
-    app.replaceScene ManagerScene scenes: scenes
+    app.replaceScene phina.game.ManagerScene scenes: scenes
 
     # アプリケーション実行
     app.run()

@@ -18,10 +18,14 @@ ecmascript              # Enable ECMAScript2015+ syntax in app code
 
 coffeescript
 mquandalle:jade
+kadira:blaze-layout
+kadira:flow-router
 less
-ian:accounts-ui-bootstrap-3
 twbs:bootstrap
+ian:accounts-ui-bootstrap-3
 accounts-facebook
 accounts-google
 accounts-twitter
 accounts-github
+#accounts-ui
+accounts-password
