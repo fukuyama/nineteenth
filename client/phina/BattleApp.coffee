@@ -8,8 +8,8 @@ phina.define 'BattleApp',
       query  : '#main'
       title  : 'Nineteenth'
       fit    : false # fit処理を自前で行う
-      width  : 640
-      height : 480
+      width  : 1280
+      height : 960
 
     @superInit config
 
@@ -55,7 +55,7 @@ phina.define 'BattleApp',
       # https://drafts.csswg.org/css-images/#the-image-rendering
       s.imageRendering = 'pixelated'
 
-      w = Math.floor(window.innerWidth - r.left - 20)
+      w = Math.floor(window.innerWidth - 30)
       h = Math.floor(window.innerHeight - r.top - 6)
       rateWidth  = e.width  / w
       rateHeight = e.height / h
