@@ -1,39 +1,23 @@
 
-phina.define 'BattleApp',
-  superClass: 'phina.display.CanvasApp'
+phina.define 'nz.BattleApp',
+  superClass: 'phina.game.GameApp'
 
   init: ->
-
-    config =
-      query  : '#main'
-      title  : 'Nineteenth'
-      fit    : false # fit処理を自前で行う
-      width  : 1280
-      height : 960
-
-    @superInit config
-
-    scene = (label, param) ->
-      if param.arguments?
-        param.arguments.$safe config
-      param.$safe
-        label     : label
-        arguments : config
-        nextLabel : 'splash'
-
-    # シーン設定
-    @replaceScene phina.game.ManagerScene
-      scenes: [
-        scene 'title',
-          className : 'TitleScene'
-          nextLabel : 'main'
-        scene 'main',
-          className : 'MainScene'
+    @superInit
+      query           : '#main'
+      title           : 'Nineteenth'
+      backgroundColor : 'gray'
+      width           : SCREEN_WIDTH
+      height          : SCREEN_HEIGHT
+      startLabel      : 'battle'
+      assets :
+        image :
+          map_chip : 'img/map_chip.png'
+      scenes : [
+        label     : 'battle'
+        className : 'nz.BattleScene'
       ]
-
-    @fitScreen()
     return
-
 
   fitScreen: (isEver = true) ->
 

@@ -1,6 +1,6 @@
 @startBattle = ->
   # アプリケーション生成
-  @app = BattleApp()
+  @app = nz.BattleApp()
   # アプリケーション実行
   @app.run()
   return
