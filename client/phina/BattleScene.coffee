@@ -10,6 +10,8 @@ phina.define 'nz.BattleScene',
   init: (param) ->
     @superInit param
 
+    console.log Session.get 'map'
+
     @map = nz.MapSprite().addChildTo @
 
     @map.x = @gridX.span 1

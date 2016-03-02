@@ -1,14 +1,29 @@
-@nz = nz = @nz ? {}
+MapData = new Mongo.Collection 'MapData'
 
-nz.MapData = new Mongo.Collection 'MapData'
-
-nz.MapData.schema = new SimpleSchema
+MapData.schema = new SimpleSchema
   name :
     type  : String
     label : 'Name'
-  width :
+
+
+MapCell = new Mongo.Collection 'MapCell'
+
+MapCell.schema = new SimpleSchema
+  index :
     type  : Number
-    label : 'Width'
-  height :
-    type  : Number
-    label : 'Height'
+    label : 'Frame Index'
+  mapx :
+    type : Number
+    label : 'mapx'
+  mapy :
+    type : Number
+    label : 'mapy'
+
+Meteor.publish "map-cell", (mapx,mapy) ->
+  return MapCell.find
+    mapx :
+      $lt : mapx - 10
+      $gt : mapx + 10
+    mapy :
+      $lt : mapy - 10
+      $gt : mapy + 10
