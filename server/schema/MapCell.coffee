@@ -1,6 +1,6 @@
-MapCell = new Mongo.Collection 'MapCell'
+MapCell = @MapCell = new Mongo.Collection 'MapCell'
 
-MapCell.schema = new SimpleSchema
+MapCell.attachSchema new SimpleSchema
   mapid :
     type  : Number
     label : 'Map ID'
@@ -19,10 +19,11 @@ Meteor.publish 'MapCell', (map={mapx:0,mapy:0}) ->
     mapx
     mapy
   } = map
+  console.log "#{mapx} #{mapy}"
   MapCell.find
     mapx :
-      $lt : mapx - 10
-      $gt : mapx + 10
+      $lt : mapx + 5
+      $gt : mapx - 5
     mapy :
-      $lt : mapy - 10
-      $gt : mapy + 10
+      $lt : mapy + 5
+      $gt : mapy - 5

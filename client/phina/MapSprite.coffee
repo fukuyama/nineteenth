@@ -3,23 +3,42 @@
 * 戦闘マップスプライト
 ###
 
+MapCell = new Mongo.Collection 'MapCell'
+
 phina.define 'nz.MapSprite',
   superClass: phina.display.DisplayElement
 
   # 初期化
   init: () ->
     @superInit()
-
-    @createMapChip(1)
-
+    @setMapData
+      mapid : 1
+      mapx  : 0
+      mapy  : 0
     return
 
-  createMapChip: (i=0,x=0,y=0) ->
+  setMapData: (map) ->
+    self = @
+    Meteor.subscribe 'MapCell', map, ->
+      MapCell.find().forEach (cell) ->
+        self.createMapChip cell
+    return
+
+  createMapChip: (param) ->
+    {
+      index
+      mapx
+      mapy
+    } = param
     w = h = MAP_CHIP_SIZE
+    x = mapx * w
+    y = mapy * h
+    if Math.abs(mapx % 2) == 1
+      y += h / 2
     phina.display.Sprite('map_chip',w,h)
       .addChildTo(@)
       .setPosition(x,y)
-      .setFrameIndex(i,w,h)
+      .setFrameIndex(index,w,h)
       .setInteractive(true)
       .setBoundingType('rect')
       .on 'pointingstart', @_dispatchMapChipEvent
