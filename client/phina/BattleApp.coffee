@@ -41,6 +41,8 @@ phina.define 'nz.BattleApp',
 
       w = Math.floor(window.innerWidth - 30)
       h = Math.floor(window.innerHeight - r.top - 6)
+      w = SCREEN_WIDTH  if w > SCREEN_WIDTH
+      h = SCREEN_HEIGHT if h > SCREEN_HEIGHT
       rateWidth  = e.width  / w
       rateHeight = e.height / h
       rate = e.height / e.width

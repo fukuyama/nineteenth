@@ -19,11 +19,18 @@ Meteor.publish 'MapCell', (map={mapx:0,mapy:0}) ->
     mapx
     mapy
   } = map
-  console.log "#{mapx} #{mapy}"
+  w = 10
+  h = 8
+  list　= for i in [mapx - w + 1 .. mapx + w] when i % 2 isnt 0 then i
   MapCell.find
-    mapx :
-      $lt : mapx + 5
-      $gt : mapx - 5
-    mapy :
-      $lt : mapy + 5
-      $gt : mapy - 5
+    $or : [{
+      mapx :
+        $lt : mapx + w
+        $gt : mapx - w
+      mapy :
+        $lt : mapy + h
+        $gt : mapy - h
+    },{
+      mapx : {$in : list}
+      mapy : mapy - h
+    }]
