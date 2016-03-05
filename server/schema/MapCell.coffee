@@ -19,7 +19,7 @@ Meteor.publish 'MapCell', (map={mapx:0,mapy:0}) ->
     mapx
     mapy
   } = map
-  w = 10
+  w = 11
   h = 8
   list　= for i in [mapx - w + 1 .. mapx + w] when i % 2 isnt 0 then i
   MapCell.find
