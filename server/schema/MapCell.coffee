@@ -21,16 +21,20 @@ Meteor.publish 'MapCell', (map={mapx:0,mapy:0}) ->
   } = map
   w = 11
   h = 8
-  list　= for i in [mapx - w + 1 .. mapx + w] when i % 2 isnt 0 then i
+  minx = mapx - w
+  maxx = mapx + w
+  miny = mapy - h
+  maxy = mapy + h
+  list　= for i in [minx + 1 .. maxx] when i % 2 isnt 0 then i
   MapCell.find
     $or : [{
       mapx :
-        $lt : mapx + w
-        $gt : mapx - w
+        $lt : maxx
+        $gt : minx
       mapy :
-        $lt : mapy + h
-        $gt : mapy - h
+        $lt : maxy
+        $gt : miny
     },{
       mapx : {$in : list}
-      mapy : mapy - h
+      mapy : miny
     }]
