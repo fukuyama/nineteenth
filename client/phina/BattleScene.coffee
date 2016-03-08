@@ -14,5 +14,6 @@ phina.define 'nz.BattleScene',
 
     @map.x = @gridX.center()
     @map.y = @gridY.center()
+    @map.refreshMapData()
 
     return

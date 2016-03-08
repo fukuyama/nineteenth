@@ -16,6 +16,7 @@ MapCell.attachSchema new SimpleSchema
 
 Meteor.publish 'MapCell', (map={mapx:0,mapy:0}) ->
   {
+    mapid
     mapx
     mapy
   } = map
@@ -38,3 +39,26 @@ Meteor.publish 'MapCell', (map={mapx:0,mapy:0}) ->
       mapx : {$in : list}
       mapy : miny
     }]
+
+Meteor.publish 'MapCell.map', (param) ->
+  {
+    mapid
+  } = param
+  console.log 'MapCell.map',param
+  MapCell.find mapid: mapid
+
+Meteor.publish 'MapCell.range', (param) ->
+  {
+    mapid
+    min
+    max
+  } = param
+  console.log 'MapCell.range',param
+  MapCell.find
+    mapid : mapid
+    mapx  :
+      $lt : max.x
+      $gt : min.x
+    mapy  :
+      $lt : max.y
+      $gt : min.y

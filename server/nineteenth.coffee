@@ -8,11 +8,12 @@ Meteor.startup ->
       name  : 'MAP001'
   cell = MapCell.findOne mapid:mapid
   unless cell?
-    for mapx in [-10 .. 10]
-      for mapy in [-10 .. 10]
+    for mapx in [-50 .. 50]
+      for mapy in [-50 .. 50]
         MapCell.insert
           mapid : mapid
           index : 0
           mapx  : mapx
           mapy  : mapy
   return
+  

@@ -19,22 +19,43 @@ phina.define 'nz.MapSprite',
     @_chips = {}
     @_pointChip = null
 
-    @setMapData
-      mapid : 1
-      mapx  : 0
-      mapy  : 0
+    @map =
+      id : 1
+      x  : 0
+      y  : 0
     return
 
-  setMapData: (map) ->
-    {
-      @mapid
-      @mapx
-      @mapy
-    } = map
+  refreshMapData: ->
+    mapx = ((@x - SCREEN_WIDTH  / 2) / MAP_CHIP_SIZE).round() + @map.x
+    mapy = ((@y - SCREEN_HEIGHT / 2) / MAP_CHIP_SIZE).round() + @map.y
+    w = (SCREEN_WIDTH  / 2 / MAP_CHIP_SIZE).ceil() + 1
+    h = (SCREEN_HEIGHT / 2 / MAP_CHIP_SIZE).ceil() + 1
+    minx = - mapx - w
+    miny = - mapy - h
+    maxx = - mapx + w
+    maxy = - mapy + h
+    mapid = @map.id
+    # TODO: 最大値最小値を記録しよう！
     self = @
-    Meteor.subscribe 'MapCell', map, ->
-      MapCell.find().forEach (cell) ->
+    #Meteor.subscribe 'MapCell.map', {mapid:@map.id}
+    Meteor.subscribe 'MapCell.range', {
+      mapid : mapid
+      min   : {x : minx, y : miny}
+      max   : {x : maxx, y : maxy}
+    }, ->
+      count = 0
+      MapCell.find(
+        mapid : mapid
+        mapx  :
+          $lt : maxx
+          $gt : minx
+        mapy  :
+          $lt : maxy
+          $gt : miny
+      ).forEach (cell) ->
+        count += 1
         self.createMapChip cell
+      console.log count
     return
 
   createMapChip: (param) ->
@@ -45,8 +66,8 @@ phina.define 'nz.MapSprite',
     } = param
     return @_chips[mapx][mapy] if @_chips[mapx]?[mapy]?
     w = h = MAP_CHIP_SIZE
-    x = mapx * w
-    y = mapy * h
+    x = (mapx + @map.x) * w
+    y = (mapy + @map.y) * h
     if Math.abs(mapx % 2) == 1
       y += h / 2
     chip = phina.display.Sprite('map_chip',w,h)
@@ -81,19 +102,14 @@ phina.define 'nz.MapSprite',
       @x += e.pointer.dx
       @y += e.pointer.dy
       @_dragFlag = true
+      if @_dragFlag
+        @refreshMapData()
     return
 
   _chipPointOut: (e) ->
     return
 
   _chipPointEnd: (e) ->
-    if @_dragFlag
-      dx = ((@x - @initialPosition.x) / MAP_CHIP_SIZE).round()
-      dy = ((@y - @initialPosition.y) / MAP_CHIP_SIZE).round()
-      @setMapData
-        mapid : @mapid
-        mapx  : @mapx - dx
-        mapy  : @mapy - dy
     @_pointFlag = false
     @_dragFlag  = false
     @_pointChip = null
