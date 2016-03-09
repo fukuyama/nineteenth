@@ -17,6 +17,10 @@ phina.define 'nz.BattleApp',
         label     : 'battle'
         className : 'nz.BattleScene'
       ]
+    @on 'canvas.mouseout', (e) ->
+      if @currentScene?.has 'canvas.mouseout'
+        @currentScene.fire e
+      return
     return
 
   fitScreen: (isEver = true) ->

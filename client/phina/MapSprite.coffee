@@ -13,49 +13,100 @@ phina.define 'nz.MapSprite',
     @superInit()
     @setInteractive(true)
 
-    @initialPosition = phina.geom.Vector2(0, 0)
-    @_pointFlag = false
-
     @_chips = {}
+
+    @_initialPosition = phina.geom.Vector2(0, 0)
+    @_pointFlag = false
     @_pointChip = null
 
     @map =
-      id : 1
-      x  : 0
-      y  : 0
+      id  : 1
+      x   : 0
+      y   : 0
+      min : {x:0,y:0}
+      max : {x:0,y:0}
+    @_firstRun = true
+
+    @on 'canvas.mouseout', ->
+      if @_dragFlag
+        app.mouse._end()
+      return
     return
 
   refreshMapData: ->
+    # 表示Map座標
     mapx = ((@x - SCREEN_WIDTH  / 2) / MAP_CHIP_SIZE).round() + @map.x
     mapy = ((@y - SCREEN_HEIGHT / 2) / MAP_CHIP_SIZE).round() + @map.y
+    # Map表示幅(毎回計算？)
     w = (SCREEN_WIDTH  / 2 / MAP_CHIP_SIZE).ceil() + 1
     h = (SCREEN_HEIGHT / 2 / MAP_CHIP_SIZE).ceil() + 1
-    minx = - mapx - w
-    miny = - mapy - h
-    maxx = - mapx + w
-    maxy = - mapy + h
-    mapid = @map.id
-    # TODO: 最大値最小値を記録しよう！
+    # 表示範囲Map座標
+    vminx = - mapx - w
+    vminy = - mapy - h
+    vmaxx = - mapx + w
+    vmaxy = - mapy + h
     self = @
-    #Meteor.subscribe 'MapCell.map', {mapid:@map.id}
-    Meteor.subscribe 'MapCell.range', {
-      mapid : mapid
-      min   : {x : minx, y : miny}
-      max   : {x : maxx, y : maxy}
-    }, ->
-      count = 0
-      MapCell.find(
-        mapid : mapid
-        mapx  :
-          $lt : maxx
-          $gt : minx
-        mapy  :
-          $lt : maxy
-          $gt : miny
-      ).forEach (cell) ->
-        count += 1
-        self.createMapChip cell
-      console.log count
+    _createMapChips = ->
+      self.createMapChips
+        vminx : vminx
+        vminy : vminy
+        vmaxx : vmaxx
+        vmaxy : vmaxy
+    param = {mapid : @map.id}
+    if @_firstRun
+      @_firstRun = false
+      param.min = {x : vminx, y : vminy}
+      param.max = {x : vmaxx, y : vmaxy}
+      Meteor.subscribe 'MapCell.range', param, _createMapChips
+      @map.min.x = vminx
+      @map.min.y = vminy
+      @map.max.x = vmaxx
+      @map.max.y = vmaxy
+      return
+    subscribe = false
+    if vminx < @map.min.x
+      param.min = {x : vminx,          y : @map.min.y}
+      param.max = {x : @map.min.x + 1, y : @map.max.y}
+      Meteor.subscribe 'MapCell.range', param, _createMapChips
+      @map.min.x = vminx
+      subscribe = true
+    if vminy < @map.min.y
+      param.min = {x : @map.min.x, y : vminy         }
+      param.max = {x : @map.max.x, y : @map.min.y + 1}
+      Meteor.subscribe 'MapCell.range', param, _createMapChips
+      @map.min.y = vminy
+      subscribe = true
+    if @map.max.x < vmaxx
+      param.min = {x : @map.max.x - 1, y : @map.min.y}
+      param.max = {x : vmaxx,          y : @map.max.y}
+      Meteor.subscribe 'MapCell.range', param, _createMapChips
+      @map.max.x = vmaxx
+      subscribe = true
+    if @map.max.y < vmaxy
+      param.min = {x : @map.min.x, y : @map.max.y - 1}
+      param.max = {x : @map.max.x, y : vmaxy         }
+      Meteor.subscribe 'MapCell.range', param, _createMapChips
+      @map.max.y = vmaxy
+      subscribe = true
+    unless subscribe
+      _createMapChips()
+
+  createMapChips: (param) ->
+    {
+      vmaxx
+      vminx
+      vmaxy
+      vminy
+    } = param
+    MapCell.find(
+      mapid : @map.id
+      mapx  :
+        $lt : vmaxx
+        $gt : vminx
+      mapy  :
+        $lt : vmaxy
+        $gt : vminy
+    ).forEach @createMapChip.bind @
     return
 
   createMapChip: (param) ->
@@ -85,11 +136,11 @@ phina.define 'nz.MapSprite',
     chip.mapy = mapy
     @_chips[mapx] = {} unless @_chips[mapx]?
     @_chips[mapx][mapy] = chip
-    chip
+    return chip
 
   _chipPointStart: (e) ->
-    @initialPosition.x = @x
-    @initialPosition.y = @y
+    @_initialPosition.x = @x
+    @_initialPosition.y = @y
     @_pointFlag = true
     @_pointChip = e.target
     return
@@ -101,15 +152,16 @@ phina.define 'nz.MapSprite',
     if @_pointFlag
       @x += e.pointer.dx
       @y += e.pointer.dy
+      @refreshMapData()
       @_dragFlag = true
-      if @_dragFlag
-        @refreshMapData()
     return
 
   _chipPointOut: (e) ->
     return
 
   _chipPointEnd: (e) ->
+    if @_dragFlag
+      @refreshMapData()
     @_pointFlag = false
     @_dragFlag  = false
     @_pointChip = null

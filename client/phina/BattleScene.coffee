@@ -16,4 +16,7 @@ phina.define 'nz.BattleScene',
     @map.y = @gridY.center()
     @map.refreshMapData()
 
+    @on 'canvas.mouseout', (e) ->
+      @map.fire e
+      return
     return

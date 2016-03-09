@@ -3,6 +3,5 @@ Template.battle.onRendered ->
   return
 
 $(document).on 'mouseout', '.battle-canvas', ->
-  #$('.battle-canvas').mouseout ->
-  console.log 'mouseout'
+  app?.flare 'canvas.mouseout'
   return
