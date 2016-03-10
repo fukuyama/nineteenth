@@ -12,7 +12,8 @@ phina.define 'nz.BattleApp',
       startLabel      : 'battle'
       assets :
         image :
-          map_chip : 'img/map_chip.png'
+          map_chip       : 'img/map_chip.png'
+          chatacter_test : 'img/chatacter_test.png'
       scenes : [
         label     : 'battle'
         className : 'nz.BattleScene'
