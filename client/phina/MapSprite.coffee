@@ -3,8 +3,6 @@
 * 戦闘マップスプライト
 ###
 
-MapCell = new Mongo.Collection 'MapCell'
-
 phina.define 'nz.MapSprite',
   superClass: phina.display.DisplayElement
 
@@ -88,6 +86,7 @@ phina.define 'nz.MapSprite',
       Meteor.subscribe 'MapCell.range', param, _createMapChips
       @map.max.y = vmaxy
       subscribe = true
+    # TODO: 広げすぎたら消したいかも。ためしに、まずは、childrenからのみ除外で、必要な部分のみ追加する感じに
     unless subscribe
       _createMapChips()
 
@@ -107,6 +106,7 @@ phina.define 'nz.MapSprite',
         $lt : vmaxy
         $gt : vminy
     ).forEach @createMapChip.bind @
+    @parent.flare 'map.refreshed'
     return
 
   createMapChip: (param) ->
@@ -166,3 +166,6 @@ phina.define 'nz.MapSprite',
     @_dragFlag  = false
     @_pointChip = null
     return
+
+  getMapPosition: (mapx,mapy) ->
+    @_chips[mapx]?[mapy]?.position

@@ -14,7 +14,7 @@ Package.onUse( function (api) {
 
   api.addFiles('startup.coffee', 'server');
 
-  api.addAssets('data/character_test_ss.coffee','server');
+  api.addAssets('data/character_type_001.coffee','server');
 
   Npm.depends({
     'coffee-script' : '1.10.0'

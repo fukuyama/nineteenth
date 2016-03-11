@@ -21,9 +21,15 @@ Meteor.startup ->
           mapy  : mapy
     console.log 'MapCell initialized'
 
-  if SpriteSheets.find().count() is 0
-    src = Assets.getText 'data/character_test_ss.coffee'
+  if CharacterTypes.find().count() is 0
+    src = Assets.getText 'data/character_type_001.coffee'
     obj = Npm.require('coffee-script').eval src
-    SpriteSheets.insert obj
-    console.log 'SpriteSheets initialized'
+    CharacterTypes.insert obj
+    console.log 'CharacterTypes initialized'
+
+  #if SpriteSheets.find().count() is 0
+  #  src = Assets.getText 'data/character_test_ss.coffee'
+  #  obj = Npm.require('coffee-script').eval src
+  #  SpriteSheets.insert obj
+  #  console.log 'SpriteSheets initialized'
   return

@@ -16,6 +16,15 @@ phina.define 'nz.BattleScene',
     @map.y = @gridY.center()
     @map.refreshMapData()
 
+    @characters = []
+
+
+    @one 'map.refreshed', (e) ->
+      c = nz.CharacterSprite().addChildTo @map
+      c.setMapPosition(0,0)
+      @characters.push c
+      console.log 'map.refreshed'
+      return
     @on 'canvas.mouseout', (e) ->
       @map.fire e
       return

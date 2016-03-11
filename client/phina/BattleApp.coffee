@@ -13,7 +13,9 @@ phina.define 'nz.BattleApp',
       assets :
         image :
           map_chip       : 'img/map_chip.png'
-          chatacter_test : 'img/chatacter_test.png'
+          character_test : 'img/character_test.png'
+        spritesheet :
+          character_test : 'ss/character_test.json'
       scenes : [
         label     : 'battle'
         className : 'nz.BattleScene'
