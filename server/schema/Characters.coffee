@@ -4,10 +4,10 @@ Characters.attachSchema new SimpleSchema
   name :
     type  : String
     label : 'Name'
-  userid :
+  owner :
     type  : String
     label : 'UserID'
 
 Meteor.publish 'Characters', ->
   Characters.find
-    userid : Meteor.userid()
+    owner : Meteor.userid()

@@ -4,10 +4,10 @@ Groups.attachSchema new SimpleSchema
   name :
     type  : String
     label : 'Name'
-  userid :
+  owner :
     type  : String
     label : 'UserID'
 
 Meteor.publish 'Groups', ->
   Groups.find
-    userid : Meteor.userid()
+    owner : Meteor.userid()
