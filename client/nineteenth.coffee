@@ -4,4 +4,3 @@ Meteor.startup ->
     mapx : 0
     mapy : 0
   }
-  Meteor.subscribe 'CharacterTypes'

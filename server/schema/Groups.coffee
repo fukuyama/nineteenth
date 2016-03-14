@@ -8,6 +8,6 @@ Groups.attachSchema new SimpleSchema
     type  : String
     label : 'UserID'
 
-Meteor.publish 'Groups', ->
+Meteor.publish 'Groups.owner', ->
   Groups.find
     owner : Meteor.userid()

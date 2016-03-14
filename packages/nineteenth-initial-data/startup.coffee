@@ -24,6 +24,7 @@ Meteor.startup ->
   if CharacterTypes.find().count() is 0
     src = Assets.getText 'data/character_type_001.coffee'
     obj = Npm.require('coffee-script').eval src
+    obj.createdAt = new Date()
     CharacterTypes.insert obj
     console.log 'CharacterTypes initialized'
 

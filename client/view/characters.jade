@@ -1,0 +1,6 @@
+template(name="characters")
+  div.container.characters-view
+    ul.list-group
+      a.list-group-item.add_character(href="/add_character") Add Character
+      each characters
+        a.list-group-item.character(href="/characters/#{_id}")= name

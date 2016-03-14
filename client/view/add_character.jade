@@ -1,0 +1,13 @@
+template(name='add_character')
+  div.container.characters-view
+    form.add_character
+      label Name
+      div.input-group
+        input.form.control(name="name")
+      label Type
+      div.input-group
+        select(name="type")
+          each characterTypes
+            option(value="#{_id}")= name
+      div.input-group
+        button.btn.btn-default.ok(type="submit") OK
