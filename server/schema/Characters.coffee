@@ -19,10 +19,25 @@ Characters.attachSchema new SimpleSchema
     defaultValue : ''
     optional: true
 
-Meteor.publish 'Characters.onwer', ->
-  Characters.find
+Meteor.publish 'Character', (id) ->
+  Characters.find id
+
+Meteor.publish 'Characters.all', ->
+  Characters.find {}
+
+Meteor.publish 'Characters.owner', ->
+  query = Characters.find
     owner : @userId
+  query.observeChanges
+    changed: (id, fields) ->
+      console.log 'Characters.owner changed',id
+  query
 
 Meteor.publish 'Characters.group', (group) ->
-  Characters.find
+  console.log 'Characters.group',group
+  query = Characters.find
     group : group
+  query.observeChanges
+    changed: (id, fields) ->
+      console.log 'Characters.group changed',id
+  query

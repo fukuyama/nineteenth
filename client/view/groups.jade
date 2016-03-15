@@ -1,5 +1,6 @@
 template(name="groups")
   div.container.groups-view
-    ul
+    ul.list-group
+      a.list-group-item(href="/add_group") Add Group
       each groups
-        li= name
+        a.list-group-item(href="/groups/#{_id}")= name

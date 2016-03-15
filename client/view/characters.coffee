@@ -1,4 +1,10 @@
-# characters
+FlowRouter.route '/characters',
+  name   : 'characters'
+  action : ->
+    BlazeLayout.render 'main',
+      content : 'characters'
+    return
+
 Template.characters.helpers
   characters : ->
-    Characters.find {},{sort: {createdAt: -1}}
+    Characters.find {owner : Meteor.userId()},{sort: {createdAt: 1}}
