@@ -2,5 +2,7 @@ template(name="characters")
   div.container.characters-view
     a.btn.btn-default(href="/add_character") Add Character
     ul.list-group
-      each character in characters
-        a.list-group-item(href="/characters/#{character._id}")= character.name
+      each characters
+        a.list-group-item(href="/characters/#{_id}")
+          = name
+          = groupName

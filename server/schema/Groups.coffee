@@ -11,12 +11,7 @@ Groups.attachSchema new SimpleSchema
     type  : String
     label : 'UserID'
 
-Meteor.publish 'Group', (id) ->
-  Groups.find id
-
-Meteor.publish 'Groups.all', ->
-  Groups.find {}
-
-Meteor.publish 'Groups.owner', ->
-  Groups.find
-    owner : @userId
+publish 'Groups.at', (id) ->
+  Groups.find _id : id
+publish 'Groups.owner', (owner = @userId) ->
+  Groups.find owner : owner

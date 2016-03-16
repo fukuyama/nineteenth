@@ -1,5 +1,8 @@
-template(name='character')
+template(name='character_view')
   div.container.character-view
+    +Template.dynamic template="character" data=character
+
+template(name='character')
     p= name
     if isOwner
       button.btn.btn-defult.delete Delete

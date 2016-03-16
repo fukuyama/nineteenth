@@ -2,17 +2,21 @@ template(name='group_view')
   div.container.group-view
     +Template.dynamic template="group" data=group
 
-    p Members
-      ul.list-group
-        each members
-          a.list-group-item.del(href="#")= name
-
-    p Characters
-      ul.list-group
-        each characters
-          a.list-group-item.add(href="#")= name
-
 template(name='group')
   p= name
   if isOwner
-    button.btn.btn-defult.delete Delete
+    button.btn.btn-defult.delete-group Delete
+
+  p Members
+    ul.list-group
+      each members
+        if isOwner
+          a.list-group-item.delete-member(href="#")= name
+        else
+          li.list-group-item= name
+
+  if isOwner
+    p Characters
+      ul.list-group
+        each characters
+          a.list-group-item.add-member(href="#")= name

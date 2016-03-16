@@ -1,14 +1,17 @@
 FlowRouter.route '/characters/:characterId',
   name   : 'character'
   action : (param) ->
-    {
-      characterId
-    } = param
-    Meteor.subscribe 'Character', characterId, ->
-      BlazeLayout.render 'main',
-        content : 'character'
-        param   : Characters.findOne characterId
-    return
+    BlazeLayout.render 'main',
+      content : 'character_view'
+      param   : param
+
+Template.character_view.onCreated ->
+  self = @
+  self.autorun ->
+    self.subscribe 'Characters.at', self.data.characterId
+
+Template.character_view.helpers
+  character : -> Characters.at.findOne @characterId
 
 Template.character.helpers
   isOwner : -> @owner is Meteor.userId()
