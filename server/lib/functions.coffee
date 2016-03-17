@@ -7,6 +7,4 @@
       changed : (id, fields) -> self.changed publishName, id, fields
       removed : (id)         -> self.removed publishName, id
     @ready()
-    @onStop ->
-      console.log publishName + ' stop'
-      handle.stop()
+    @onStop -> handle.stop()

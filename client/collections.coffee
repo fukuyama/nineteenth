@@ -1,4 +1,7 @@
-@MapCell        = new Mongo.Collection 'MapCell'
+@MapCell =
+  at    : new Mongo.Collection 'MapCell.at'
+  range : new Mongo.Collection 'MapCell.range'
+
 @CharacterTypes = new Mongo.Collection 'CharacterTypes'
 
 @Characters =

@@ -14,7 +14,19 @@ MapCell.attachSchema new SimpleSchema
     type  : Number
     label : 'MapY'
 
-Meteor.publish 'MapCell.range', (param) ->
+publish 'MapCell.at', (param) ->
+  console.log 'publish MapCell.at', param
+  {
+    mapid
+    mapx
+    mapy
+  } = param
+  MapCell.find
+    mapid : mapid
+    mapx  : mapx
+    mapy  : mapy
+
+publish 'MapCell.range', (param) ->
   {
     mapid
     min

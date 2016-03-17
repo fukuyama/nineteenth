@@ -8,24 +8,24 @@ phina.define 'nz.BattleScene',
 
   # 初期化
   init: (param) ->
-    @superInit param
-
-    @map = nz.MapSprite().addChildTo @
-
-    @map.x = @gridX.center()
-    @map.y = @gridY.center()
-    @map.refreshMapData()
+    {
+      mapid
+      mapx
+      mapy
+    } = param
+    @superInit()
 
     @characters = []
 
-
-    @one 'map.refreshed', (e) ->
-      c = nz.CharacterSprite().addChildTo @map
-      c.setMapPosition(0,0)
-      @characters.push c
-      console.log 'map.refreshed'
-      return
-    @on 'canvas.mouseout', (e) ->
-      @map.fire e
-      return
+    @mapSprite = nz.MapSprite
+      mapid : mapid
+      mapx  : mapx
+      mapy  : mapy
+    @mapSprite.addChildTo @
+    @mapSprite.moveTo(
+      @gridX.center()
+      @gridY.center()
+    )
+    @on 'canvas.mouseout',     (e) -> @mapSprite?.fire e
+    @on 'MapCell.range.ready', (e) -> @mapSprite?.fire e
     return
