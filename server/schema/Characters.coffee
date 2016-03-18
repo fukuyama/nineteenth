@@ -24,7 +24,9 @@ publish 'Characters.at', (id) ->
 publish 'Characters.owner', (owner = @userId) ->
   Characters.find owner : owner
 publish 'Characters.group', (group) ->
-  Characters.find group : group
+  unless Array.isArray group
+    group = [group]
+  Characters.find group : {$in : group}
 publish 'Characters.groupother', (group) ->
   Characters.find
     owner : @userId

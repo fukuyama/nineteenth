@@ -12,16 +12,24 @@ FlowRouter.route '/battle',
     return
 
 # リアクティブな物は、Template.instance().autorun でサブスクライブさせる
+Template.battle.onCreated ->
+  return
+
 Template.battle.onRendered ->
-  startBattle
-    mapid : 1
-    mapx  : 0
-    mapy  : 0
   ins = @
   ins.autorun ->
     console.log 'autorun'
-    ins.subscribe 'MapCell.range', app.getMapCellRangeParam(),
-      onReady : -> app?.flare 'MapCell.range.ready'
+    ins.subscribe 'Groups.owner',
+      onReady : ->
+        startBattle
+          mapid : 1
+          mapx  : 0
+          mapy  : 0
+          groups : for group in Groups.owner.find().fetch() then group._id
+  return
+
+Template.battle.onDestroyed ->
+  app?.flare 'destroyed'
   return
 
 Template.battle.helpers

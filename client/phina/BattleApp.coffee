@@ -4,30 +4,12 @@ phina.define 'nz.BattleApp',
 
   init: (param) ->
     {
-      @mapid
-      @mapx
-      @mapy
+      @groups
     } = param
-    @_reactiveVars =
-      map_cell_range_param : new ReactiveVar {
-        mapid : @mapid
-        max :
-          x : @mapx
-          y : @mapy
-        min :
-          x : @mapx
-          y : @mapy
-      }, (a,b) ->
-        a.mapid is b.mapid and
-        a.max.x is b.max.x and
-        a.max.y is b.max.y and
-        a.min.x is b.min.x and
-        a.min.y is b.min.y
-
     @superInit
       query           : '#main'
       title           : 'Nineteenth'
-      backgroundColor : 'gray'
+      backgroundColor : 'white'
       width           : SCREEN_WIDTH
       height          : SCREEN_HEIGHT
       startLabel      : 'battle'
@@ -43,9 +25,32 @@ phina.define 'nz.BattleApp',
         arguments : param
       ]
 
-    @on 'canvas.mouseout',     (e) -> @currentScene?.fire e
-    @on 'MapCell.range.ready', (e) -> @currentScene?.fire e
+    app = @
+    @subscribe(
+      'Characters.group'
+      @groups
+      onReady : ->
+        console.log 'Characters.group.ready'
+        app.currentScene.flare 'Characters.group.ready'
+    )
+    console.log 'isReady',@isReady('Characters.group')
+
+    @on 'canvas.mouseout', (e) -> @currentScene?.fire e
+    @on 'destroyed',       (e) ->
+      @currentScene?.fire e
+      @unsubscribes()
     return
+
+  isReady : (key) -> @_subscribes[key]?.ready()
+
+  subscribe : ->
+    @_subscribes = @_subscribes ? {}
+    key = arguments[0]
+    @_subscribes[key] = Meteor.subscribe.apply Meteor, arguments
+
+  unsubscribes : ->
+    for key,handle of @_subscribes
+      handle.stop()
 
   fitScreen: (isEver = true) ->
 
@@ -89,11 +94,3 @@ phina.define 'nz.BattleApp',
     if isEver
       phina.global.addEventListener("resize", _fitFunc, false)
     return
-
-  setMapCellRangeParam : (param) ->
-    return unless param?
-    param.mapid = @mapid unless param.mapid?
-    @_reactiveVars.map_cell_range_param.set(param)
-    console.log 'setMapCellRangeParam', param
-  getMapCellRangeParam : ->
-    @_reactiveVars.map_cell_range_param.get()

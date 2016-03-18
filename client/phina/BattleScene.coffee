@@ -4,7 +4,7 @@
 ###
 
 phina.define 'nz.BattleScene',
-  superClass: phina.display.DisplayScene
+  superClass: 'phina.display.DisplayScene'
 
   # 初期化
   init: (param) ->
@@ -12,7 +12,9 @@ phina.define 'nz.BattleScene',
       mapid
       mapx
       mapy
+      groups
     } = param
+    console.log 'groups',groups
     @superInit()
 
     @characters = []
@@ -26,6 +28,19 @@ phina.define 'nz.BattleScene',
       @gridX.center()
       @gridY.center()
     )
-    @on 'canvas.mouseout',     (e) -> @mapSprite?.fire e
-    @on 'MapCell.range.ready', (e) -> @mapSprite?.fire e
+
+    @on 'canvas.mouseout', (e) ->
+      @mapSprite.fire e
+    @on 'destroyed',       (e) ->
+      @mapSprite.fire e
+    if app.isReady('Characters.group')
+      console.log 'Characters.group.ready'
+      Characters.group.find(group : {$in : groups}).forEach (character) ->
+        console.log character
+    else
+      @on 'Characters.group.ready', (e) ->
+        console.log 'Characters.group.ready'
+        Characters.group.find(group : {$in : groups}).forEach (character) ->
+          console.log character
+
     return

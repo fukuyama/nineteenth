@@ -4,15 +4,17 @@
 ###
 
 phina.define 'nz.CharacterSprite',
-  superClass: phina.display.DisplayElement
+  superClass: 'phina.display.DisplayElement'
 
   # 初期化
-  init: () ->
+  init: (param) ->
+    {
+      @name
+      image
+      spritesheet
+    } = param
     @superInit()
     @setInteractive(true)
-
-    image = 'character_test'
-    spritesheet = 'character_test'
 
     @sprite = phina.display.Sprite(image,MAP_CHIP_SIZE,MAP_CHIP_SIZE)
     @sprite.image = @changeColor @sprite.image.clone(),[{
