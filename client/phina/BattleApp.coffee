@@ -33,7 +33,6 @@ phina.define 'nz.BattleApp',
         console.log 'Characters.group.ready'
         app.currentScene.flare 'Characters.group.ready'
     )
-    console.log 'isReady',@isReady('Characters.group')
 
     @on 'canvas.mouseout', (e) -> @currentScene?.fire e
     @on 'destroyed',       (e) ->

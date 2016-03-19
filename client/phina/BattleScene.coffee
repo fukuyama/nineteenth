@@ -33,14 +33,24 @@ phina.define 'nz.BattleScene',
       @mapSprite.fire e
     @on 'destroyed',       (e) ->
       @mapSprite.fire e
-    if app.isReady('Characters.group')
-      console.log 'Characters.group.ready'
-      Characters.group.find(group : {$in : groups}).forEach (character) ->
-        console.log character
-    else
-      @on 'Characters.group.ready', (e) ->
-        console.log 'Characters.group.ready'
+
+    @phase 'null', ->
+      return
+    @phase 'character load', ->
+      if @app.isReady('Characters.group')
         Characters.group.find(group : {$in : groups}).forEach (character) ->
           console.log character
+        @next 'null'
 
+    @next 'character load'
     return
+
+  phase: (name,update) ->
+    @_phase = @_phase ? {}
+    @_phase[name] = update
+
+  next: (name) ->
+    if @_phase[name]?
+      @update = @_phase[name]    
+    else
+      console.error 'phase not found.',name
