@@ -10,9 +10,17 @@ phina.define 'nz.CharacterSprite',
   init: (param) ->
     {
       @name
+    } = param.character
+    {
       image
       spritesheet
-    } = param
+    } = param.type
+    console.log(
+      'CharacterSprite'
+      @name
+      image
+      spritesheet
+    )
     @superInit()
     @setInteractive(true)
 

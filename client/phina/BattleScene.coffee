@@ -38,8 +38,12 @@ phina.define 'nz.BattleScene',
       return
     @phase 'character load', ->
       if @app.isReady('Characters.group')
+        self = @
         Characters.group.find(group : {$in : groups}).forEach (character) ->
-          console.log character
+          type = CharacterTypes.findOne character.type
+          self.characters.push nz.CharacterSprite
+            character : character
+            type : type
         @next 'null'
 
     @next 'character load'
