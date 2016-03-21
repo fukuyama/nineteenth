@@ -15,5 +15,4 @@
   owner : new Mongo.Collection 'Groups.owner'
 
 Tracker.autorun ->
-  h = Meteor.subscribe 'CharacterTypes'
-  console.log 'CharacterTypes ', h.subscriptionId
+  Meteor.subscribe 'CharacterTypes'

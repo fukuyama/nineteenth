@@ -18,11 +18,13 @@ phina.define 'nz.MapSprite',
     @superInit()
     @setInteractive(true)
 
-    @_chips = {}
+    @_chips  = {}
+    @_blinks = {}
 
     @_initialPosition = phina.geom.Vector2(0, 0)
     @_pointFlag = false
     @_pointChip = null
+    @_mapReady  = false
 
     @_range =
       min : {x:0,y:0}
@@ -134,8 +136,11 @@ phina.define 'nz.MapSprite',
         $gt : param.min.y
         $lt : param.max.y
     ).forEach @createMapChip.bind @
+    @_mapReady = true
     @parent?.flare 'map.refreshed'
     return
+
+  mapReady: -> @_mapReady
 
   createMapChip: (param) ->
     {
@@ -165,6 +170,27 @@ phina.define 'nz.MapSprite',
     @_chips[mapx] = {} unless @_chips[mapx]?
     @_chips[mapx][mapy] = chip
     return chip
+
+  blink: (mapx,mapy) ->
+    if @_blinks[mapx]?[mapy]?
+      return
+    w = h = MAP_CHIP_SIZE
+    {x,y} = @getMapPosition(mapx,mapy)
+    blink = phina.display.RectangleShape(
+      width  : w
+      height : h
+      strokeStyle : 'white'
+      fillStyle   : 'white'
+    )
+      .addChildTo(@)
+      .setPosition(x,y)
+      .setInteractive(true)
+      .setVisible(true)
+
+    blink.tweener.clear().fade(0.5,300).fade(0.1,300).setLoop(true)
+    @_blinks[mapx] = [] unless @_blinks[mapx]?
+    @_blinks[mapx][mapy] = blink
+    return
 
   _chipPointStart: (e) ->
     @_initialPosition.x = @x

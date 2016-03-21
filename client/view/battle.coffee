@@ -2,11 +2,9 @@
 FlowRouter.route '/battle',
   name : 'battle'
   subscriptions : (param) ->
-    console.log 'subscriptions'
     # リアクティブじゃない、サーバーからのみ送られる物はここでサブスクライブする感じ
     return
   action : ->
-    console.log 'action'
     BlazeLayout.render 'main',
       content : 'battle'
     return
@@ -18,7 +16,6 @@ Template.battle.onCreated ->
 Template.battle.onRendered ->
   ins = @
   ins.autorun ->
-    console.log 'autorun'
     ins.subscribe 'Groups.owner',
       onReady : ->
         startBattle

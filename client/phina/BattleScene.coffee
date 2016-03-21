@@ -14,8 +14,7 @@ phina.define 'nz.BattleScene',
       mapy
       groups
     } = param
-    console.log 'groups',groups
-    @superInit()
+    @superInit(param)
 
     @characters = []
 
@@ -45,6 +44,14 @@ phina.define 'nz.BattleScene',
             character : character
             type : type
         @next 'null'
+      return
+    @phase 'blink test', ->
+      if @mapSprite.mapReady()
+        @mapSprite.blink(0,0)
+        @mapSprite.blink(0,1)
+        @mapSprite.blink(1,1)
+        @next 'null'
+      return
 
     @next 'character load'
     return

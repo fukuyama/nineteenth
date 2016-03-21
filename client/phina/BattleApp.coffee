@@ -6,6 +6,8 @@ phina.define 'nz.BattleApp',
     {
       @groups
     } = param
+    param.width  = SCREEN_WIDTH
+    param.height = SCREEN_HEIGHT
     @superInit
       query           : '#main'
       title           : 'Nineteenth'
@@ -30,7 +32,6 @@ phina.define 'nz.BattleApp',
       'Characters.group'
       @groups
       onReady : ->
-        console.log 'Characters.group.ready'
         app.currentScene.flare 'Characters.group.ready'
     )
 
