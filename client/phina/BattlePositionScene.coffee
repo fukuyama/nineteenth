@@ -1,9 +1,9 @@
 ###*
-* @file BattleStartScene.coffee
+* @file BattlePositionScene.coffee
 * 戦闘開始シーン
 ###
 
-phina.define 'nz.BattleStartScene',
+phina.define 'nz.BattlePositionScene',
   superClass: 'phina.display.DisplayScene'
 
   # 初期化

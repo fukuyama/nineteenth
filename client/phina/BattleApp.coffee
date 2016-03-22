@@ -6,9 +6,7 @@ phina.define 'nz.BattleApp',
     {
       @groups
     } = param
-    param.width  = SCREEN_WIDTH
-    param.height = SCREEN_HEIGHT
-    @superInit
+    @superInit {
       query           : '#main'
       title           : 'Nineteenth'
       backgroundColor : 'white'
@@ -24,18 +22,13 @@ phina.define 'nz.BattleApp',
       scenes : [
         label     : 'battle'
         className : 'nz.BattleScene'
-        arguments : param
       ]
+    }.$safe param
 
-    app = @
-    @subscribe(
-      'Characters.group'
-      @groups
-      onReady : ->
-        app.currentScene.flare 'Characters.group.ready'
-    )
+    @subscribe 'Characters.group', @groups
 
-    @on 'canvas.mouseout', (e) -> @currentScene?.fire e
+    @on 'canvas.mouseout', (e) ->
+      @currentScene?.fire e
     @on 'destroyed',       (e) ->
       @currentScene?.fire e
       @unsubscribes()

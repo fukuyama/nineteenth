@@ -12,7 +12,7 @@ phina.define 'nz.BattleScene',
       mapid
       mapx
       mapy
-      groups
+      @groups
     } = param
     @superInit(param)
 
@@ -33,35 +33,65 @@ phina.define 'nz.BattleScene',
     @on 'destroyed',       (e) ->
       @mapSprite.fire e
 
-    @phase 'null', ->
+    @_phase = {}
+    for nm, fn of @phase
+      @_phase[nm] = fn
+
+    @next 'start'
+    return
+
+  next: (name='null') ->
+    if @_phase[name]?
+      console.log 'phase',name
+      @update = @_phase[name]
+    else
+      if name isnt 'null'
+        console.error 'phase not found.',name
+      @update = null
+
+  scenePhase: (scene, next) ->
+    scene.addChild @mapSprite
+    self = @
+    scene.on 'exit', ->
+      self.next next
+      self.addChild self.mapSprite
+    @app.pushScene scene
+    @update = null
+    return
+
+  phase:
+    'start' : ->
+      @next 'map load'
       return
-    @phase 'character load', ->
+
+    'map load' : ->
+      if @mapSprite.mapReady()
+        @next 'character load'
+      return
+
+    'character load' : ->
       if @app.isReady('Characters.group')
         self = @
-        Characters.group.find(group : {$in : groups}).forEach (character) ->
+        Characters.group.find(group : {$in : @groups}).forEach (character) ->
           type = CharacterTypes.findOne character.type
           self.characters.push nz.CharacterSprite
             character : character
             type : type
-        @next 'null'
-      return
-    @phase 'blink test', ->
-      if @mapSprite.mapReady()
-        @mapSprite.blink(0,0)
-        @mapSprite.blink(0,1)
-        @mapSprite.blink(1,1)
-        @next 'null'
+        @next 'setup position'
       return
 
-    @next 'character load'
-    return
+    'blink test' : ->
+      @mapSprite.blink(0,0)
+      @mapSprite.blink(0,1)
+      @mapSprite.blink(1,1)
+      @next
+      return
 
-  phase: (name,update) ->
-    @_phase = @_phase ? {}
-    @_phase[name] = update
-
-  next: (name) ->
-    if @_phase[name]?
-      @update = @_phase[name]    
-    else
-      console.error 'phase not found.',name
+    'setup position' : ->
+      scene = nz.BattlePositionScene
+        width      : @width
+        height     : @height
+        groups     : @groups
+        characters : @characters
+      @scenePhase scene, 'start turn'
+      return
