@@ -8,7 +8,12 @@ phina.define 'nz.BattlePositionScene',
 
   # 初期化
   init: (param) ->
+    {
+      @characters
+    } = param
     @superInit(param)
+
+    console.log @characters
 
     @on 'pointend', ->
       console.log 'pointend'
