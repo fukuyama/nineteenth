@@ -41,8 +41,18 @@ phina.define 'nz.MapSprite',
       return
     return
 
-  currentMapX : -> ((@x - SCREEN_WIDTH  / 2) / MAP_CHIP_SIZE).round() + @mapx
-  currentMapY : -> ((@y - SCREEN_HEIGHT / 2) / MAP_CHIP_SIZE).round() + @mapy
+  currentMapXY : -> @calcMapXY(@x,@y)
+  calcMapXY : (x,y) ->
+    if typeof x is 'object'
+      {
+        x
+        y
+      } = x
+    mapx = ((x - SCREEN_WIDTH  / 2) / MAP_CHIP_SIZE).round() + @mapx
+    if Math.abs(mapx % 2) == 1
+      y -= MAP_CHIP_SIZE / 2
+    mapy = ((y - SCREEN_HEIGHT / 2) / MAP_CHIP_SIZE).round() + @mapy
+    {mapx:mapx,mapy:mapy}
 
   subscribeMapCell: (param) ->
     self = @
@@ -73,8 +83,10 @@ phina.define 'nz.MapSprite',
 
   refreshMap: ->
     # 表示Map座標
-    mapx = @currentMapX()
-    mapy = @currentMapY()
+    {
+      mapx
+      mapy
+    } = @currentMapXY()
     # 表示範囲Map座標
     vminx = - mapx - @mapw
     vminy = - mapy - @maph
@@ -215,6 +227,10 @@ phina.define 'nz.MapSprite',
     return
 
   _chipPointEnd: (e) ->
+    console.log 'pointend', {
+      mapx : e.target.mapx
+      mapy : e.target.mapy
+    }
     if @_dragFlag
       @unsubscribeMapCell()
     @_pointFlag = false

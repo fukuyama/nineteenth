@@ -92,6 +92,7 @@ phina.define 'nz.BattleScene',
         width      : @width
         height     : @height
         groups     : @groups
+        mapSprite  : @mapSprite
         characters : @characters
       @scenePhase scene, 'start turn'
       return
