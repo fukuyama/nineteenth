@@ -11,10 +11,10 @@ phina.define 'nz.BattlePositionScene',
     {
       @characters
       @mapSprite
+      @mapx
+      @mapy
     } = param
     @superInit(param)
-
-    console.log @characters
 
     @on 'pointend', (e) ->
       pt = @mapSprite.calcMapXY e.pointer
