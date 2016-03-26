@@ -33,23 +33,12 @@ phina.define 'nz.BattleScene',
     @on 'destroyed',       (e) ->
       @mapSprite.fire e
 
-    @_phase = {}
-    for nm, fn of @phase
-      @_phase[nm] = fn
-
-    @next 'start'
+    @next @start_phase
     return
 
-  next: (name='null') ->
-    if @_phase[name]?
-      console.log 'phase',name
-      @update = @_phase[name]
-    else
-      if name isnt 'null'
-        console.error 'phase not found.',name
-      @update = null
+  next: (fn) -> @update = fn
 
-  scenePhase: (scene, next) ->
+  scene_phase : (scene, next) ->
     scene.addChild @mapSprite
     self = @
     scene.on 'exit', ->
@@ -59,42 +48,39 @@ phina.define 'nz.BattleScene',
     @update = null
     return
 
-  phase:
-    'start' : ->
-      @next 'map load'
-      return
+  start_phase : ->
+    @next @map_load_phase
+    return
 
-    'map load' : ->
-      if @mapSprite.mapReady()
-        @next 'character load'
-      return
+  map_load_phase : ->
+    if @mapSprite.mapReady()
+      @next @character_load_phase
+    return
 
-    'character load' : ->
-      if @app.isReady('Characters.group')
-        self = @
-        Characters.group.find(group : {$in : @groups}).forEach (character) ->
-          type = CharacterTypes.findOne character.type
-          self.characters.push nz.CharacterSprite
-            character : character
-            type : type
-        @next 'setup position'
-      return
+  character_load_phase : ->
+    if @app.isReady('Characters.group')
+      self = @
+      Characters.group.find(group : {$in : @groups}).forEach (character) ->
+        type = CharacterTypes.findOne character.type
+        self.characters.push nz.CharacterSprite
+          character : character
+          type : type
+      @next @setup_position_phase
+    return
 
-    'blink test' : ->
-      @mapSprite.blink(0,0)
-      @mapSprite.blink(0,1)
-      @mapSprite.blink(1,1)
-      @next
-      return
+  setup_position_phase : ->
+    scene = nz.BattlePositionScene
+      width      : @width
+      height     : @height
+      groups     : @groups
+      mapSprite  : @mapSprite
+      characters : @characters
+      mapx       : @mapx
+      mapy       : @mapy
+    @scene_phase scene, @start_turn
+    return
 
-    'setup position' : ->
-      scene = nz.BattlePositionScene
-        width      : @width
-        height     : @height
-        groups     : @groups
-        mapSprite  : @mapSprite
-        characters : @characters
-        mapx       : @mapx
-        mapy       : @mapy
-      @scenePhase scene, 'start turn'
-      return
+  start_turn : ->
+    @next null
+    return
+
