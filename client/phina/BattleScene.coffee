@@ -38,15 +38,16 @@ phina.define 'nz.BattleScene',
 
   next: (fn) -> @update = fn
 
-  scene_phase : (scene, next) ->
-    scene.addChild @mapSprite
+  scene_phase : (scene) ->
     self = @
+    scene.addChild self.mapSprite
     scene.on 'exit', ->
-      self.next next
       self.addChild self.mapSprite
-    @app.pushScene scene
-    @update = null
-    return
+    self.app.pushScene scene
+    self.update = null
+    next: (fn) ->
+      scene.on 'exit', ->
+        self.next fn
 
   start_phase : ->
     @next @map_load_phase
@@ -77,10 +78,11 @@ phina.define 'nz.BattleScene',
       characters : @characters
       mapx       : @mapx
       mapy       : @mapy
-    @scene_phase scene, @start_turn
+    @scene_phase(scene).next @start_turn
     return
 
   start_turn : ->
+    console.log 'start_turn'
     @next null
     return
 

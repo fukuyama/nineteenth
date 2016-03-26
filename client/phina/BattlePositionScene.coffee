@@ -20,4 +20,6 @@ phina.define 'nz.BattlePositionScene',
       pt = @mapSprite.calcMapXY e.pointer
       console.log 'pointend', pt
       @mapSprite.blink(pt.mapx,pt.mapy)
+      @exit()
     return
+
