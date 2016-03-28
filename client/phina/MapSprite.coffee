@@ -187,7 +187,9 @@ phina.define 'nz.MapSprite',
     if @_blinks[mapx]?[mapy]?
       return
     w = h = MAP_CHIP_SIZE
-    {x,y} = @getMapPosition(mapx,mapy)
+    pt = @getMapPosition(mapx,mapy)
+    return unless pt?
+    {x,y} = pt
     blink = phina.display.RectangleShape(
       width  : w
       height : h
