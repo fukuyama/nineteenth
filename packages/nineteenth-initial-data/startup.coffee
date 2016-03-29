@@ -10,11 +10,11 @@ Meteor.startup ->
     MapData.insert data
     console.log 'MapData initialized',data
 
-  cell = MapCell.findOne mapid:mapid
+  cell = MapCells.findOne mapid:mapid
   unless cell?
     for mapx in [-50 .. 50]
       for mapy in [-50 .. 50]
-        MapCell.insert
+        MapCells.insert
           mapid : mapid
           index : 0
           mapx  : mapx

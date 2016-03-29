@@ -8,10 +8,10 @@ FlowRouter.route '/characters/:characterId',
 Template.character_view.onCreated ->
   self = @
   self.autorun ->
-    self.subscribe 'Characters.at', self.data.characterId
+    self.subscribe 'Characters.At', self.data.characterId
 
 Template.character_view.helpers
-  character : -> Characters.at.findOne @characterId
+  character : -> Characters.At.findOne @characterId
 
 Template.character.helpers
   isOwner : -> @owner is Meteor.userId()

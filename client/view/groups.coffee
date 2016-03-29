@@ -8,8 +8,8 @@ FlowRouter.route '/groups',
 Template.groups.onCreated ->
   self = @
   self.autorun ->
-    self.subscribe 'Groups.owner'
+    self.subscribe 'Groups.Owner'
 
 Template.groups.helpers
   groups : ->
-    Groups.owner.find {owner : Meteor.userId()},{sort: {createdAt: 1}}
+    Groups.Owner.find {owner : Meteor.userId()},{sort: {createdAt: 1}}

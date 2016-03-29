@@ -1,7 +1,7 @@
 FlowRouter.route '/characters',
   name   : 'characters'
   subscriptions : (param) ->
-    @register 'Characters.owner', Meteor.subscribe 'Characters.owner'
+    @register 'Characters.Owner', Meteor.subscribe 'Characters.Owner'
     return
   action : ->
     BlazeLayout.render 'main',
@@ -11,12 +11,10 @@ FlowRouter.route '/characters',
 Template.characters.onCreated ->
   ins = Template.instance()
   ins.groupNames = {}
-  #ins.autorun ->
-  #  ins.subscribe 'Characters.owner'
 
 Template.characters.helpers
   characters : ->
-    Characters.owner.find {},{sort: {createdAt: 1}}
+    Characters.Owner.find {},{sort: {createdAt: 1}}
   groupName : ->
     return '' unless @group?
     groupId = @group
@@ -24,7 +22,7 @@ Template.characters.helpers
     return ins.groupNames[groupId].get() if ins.groupNames[groupId]?
 
     ins.groupNames[groupId] = new ReactiveVar('')
-    ins.subscribe 'Groups.at', groupId,
+    ins.subscribe 'Groups.At', groupId,
       onReady: ->
-        ins.groupNames[groupId].set Groups.at.findOne(groupId).name
+        ins.groupNames[groupId].set Groups.At.findOne(groupId).name
     return ins.groupNames[groupId].get()

@@ -17,17 +17,22 @@ phina.define 'nz.BattlePositionScene',
     @superInit(param)
 
     @on 'pointend', (e) ->
-      pt = @mapSprite.calcMapXY e.pointer
-      console.log 'pointend', pt
-      l = @calcDistanceAddress(pt.mapx,pt.mapy,5)
+      pos = @mapSprite.calcMapXY e.pointer
+      l = @calcDistanceAddress(pos,3)
       for a in l
-        @mapSprite.blink(a[0],a[1])
+        @mapSprite.blink(a.mapx,a.mapy)
       @exit()
     return
 
-  calcDistanceAddress: (mapx,mapy,distance) ->
+  calcDistanceAddress: (pos,distance) ->
+    {
+      mapx
+      mapy
+    } = pos
     l = []
     for x in [mapx - distance .. mapx + distance]
       for y in [mapy - distance .. mapy + distance]
-        l.push [x,y]
+        p1 = {mapx:x,mapy:y}
+        if nz.Graph.direction(pos,p1) is distance
+          l.push p1
     return l

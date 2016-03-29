@@ -16,13 +16,13 @@ Template.battle.onCreated ->
 Template.battle.onRendered ->
   ins = @
   ins.autorun ->
-    ins.subscribe 'Groups.owner',
+    ins.subscribe 'Groups.Owner',
       onReady : ->
         startBattle
           mapid : 1
           mapx  : 0
           mapy  : 0
-          groups : for group in Groups.owner.find().fetch() then group._id
+          groups : for group in Groups.Owner.find().fetch() then group._id
   return
 
 Template.battle.onDestroyed ->

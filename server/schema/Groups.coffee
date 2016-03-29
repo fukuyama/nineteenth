@@ -11,7 +11,7 @@ Groups.attachSchema new SimpleSchema
     type  : String
     label : 'UserID'
 
-publish 'Groups.at', (id) ->
+publish 'Groups.At', (id) ->
   Groups.find _id : id
-publish 'Groups.owner', (owner = @userId) ->
+publish 'Groups.Owner', (owner = @userId) ->
   Groups.find owner : owner

@@ -10,24 +10,25 @@ FlowRouter.route '/groups/:groupId',
 Template.group_view.onCreated ->
   self = @
   self.autorun ->
-    self.subscribe 'Groups.at', self.data.groupId
-    self.subscribe 'Characters.group', self.data.groupId
-    self.subscribe 'Characters.groupother', self.data.groupId
+    self.subscribe 'Groups.At', self.data.groupId
+    self.subscribe 'Characters.Group', self.data.groupId
+    self.subscribe 'Characters.GroupOther', self.data.groupId
 
 Template.group_view.helpers
   group : ->
-    Groups.at.findOne @groupId
+    Groups.At.findOne @groupId
 
 # group
 Template.group.helpers
   isOwner : ->
     @owner is Meteor.userId()
   members : ->
-    Characters.group.find {
+    Characters.Group.find {
       group : @_id
     }
   characters : ->
-    Characters.groupother.find {
+    Characters.GroupOther.find {
+      owner : Meteor.userId()
       group : {$ne : @_id}
     }
 

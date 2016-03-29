@@ -1,18 +1,18 @@
-@MapCell =
-  at    : new Mongo.Collection 'MapCell.at'
-  range : new Mongo.Collection 'MapCell.range'
+@MapCells =
+  At    : new Mongo.Collection 'MapCells.At'
+  Range : new Mongo.Collection 'MapCells.Range'
 
 @CharacterTypes = new Mongo.Collection 'CharacterTypes'
 
 @Characters =
-  at         : new Mongo.Collection 'Characters.at'
-  owner      : new Mongo.Collection 'Characters.owner'
-  group      : new Mongo.Collection 'Characters.group'
-  groupother : new Mongo.Collection 'Characters.groupother'
+  At         : new Mongo.Collection 'Characters.At'
+  Owner      : new Mongo.Collection 'Characters.Owner'
+  Group      : new Mongo.Collection 'Characters.Group'
+  GroupOther : new Mongo.Collection 'Characters.GroupOther'
 
 @Groups =
-  at    : new Mongo.Collection 'Groups.at'
-  owner : new Mongo.Collection 'Groups.owner'
+  At    : new Mongo.Collection 'Groups.At'
+  Owner : new Mongo.Collection 'Groups.Owner'
 
 Tracker.autorun ->
   Meteor.subscribe 'CharacterTypes'

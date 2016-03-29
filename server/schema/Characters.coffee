@@ -19,15 +19,15 @@ Characters.attachSchema new SimpleSchema
     defaultValue : ''
     optional: true
 
-publish 'Characters.at', (id) ->
+publish 'Characters.At', (id) ->
   Characters.find _id : id
-publish 'Characters.owner', (owner = @userId) ->
+publish 'Characters.Owner', (owner = @userId) ->
   Characters.find owner : owner
-publish 'Characters.group', (group) ->
+publish 'Characters.Group', (group) ->
   unless Array.isArray group
     group = [group]
   Characters.find group : {$in : group}
-publish 'Characters.groupother', (group) ->
+publish 'Characters.GroupOther', (group) ->
   Characters.find
     owner : @userId
     group : {$ne : group}

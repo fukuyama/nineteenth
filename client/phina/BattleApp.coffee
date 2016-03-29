@@ -25,7 +25,7 @@ phina.define 'nz.BattleApp',
       ]
     }.$safe param
 
-    @subscribe 'Characters.group', @groups
+    @subscribe 'Characters.Group', @groups
 
     @on 'canvas.mouseout', (e) ->
       @currentScene?.fire e
@@ -34,7 +34,11 @@ phina.define 'nz.BattleApp',
       @unsubscribes()
     return
 
-  isReady : (key) -> @_subscribes[key]?.ready()
+  isReady : (key) ->
+    unless @_subscribes[key]?
+      console.error key,'not found.'
+      return false
+    @_subscribes[key].ready()
 
   subscribe : ->
     @_subscribes = @_subscribes ? {}

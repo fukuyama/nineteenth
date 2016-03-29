@@ -56,7 +56,7 @@ phina.define 'nz.MapSprite',
 
   subscribeMapCell: (param) ->
     self = @
-    @_handlers.push Meteor.subscribe 'MapCell.range', param,
+    @_handlers.push Meteor.subscribe 'MapCells.Range', param,
       onReady : ->
         self.createMapChips(param)
   unsubscribeMapCell: (force=false)->
@@ -139,7 +139,7 @@ phina.define 'nz.MapSprite',
 
   createMapChips: (param) ->
     # 表示範囲Map座標
-    MapCell.range.find(
+    MapCells.Range.find(
       mapid : param.mapid
       mapx  :
         $gt : param.min.x

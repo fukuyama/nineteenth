@@ -10,7 +10,7 @@ CharacterTypes.attachSchema new SimpleSchema
   image :
     type  : String
     label : 'Image'
-  spritesheet :
+  spriteSheet :
     type  : String
     label : 'Sprite Sheet'
 
