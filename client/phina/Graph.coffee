@@ -14,7 +14,7 @@ class nz.Graph
 * @param {Object} c1 元(mapx,mapy)
 * @param {Object} c2 対象(mapx,mapy)
 ###
-nz.Graph.direction = (c1,c2) ->
+nz.Graph.distance = (c1,c2) ->
   hx = Math.abs(c1.mapx - c2.mapx)
   hy = Math.abs(c1.mapy - c2.mapy)
   hr = Math.ceil(hx / 2)
@@ -29,7 +29,7 @@ nz.Graph.direction = (c1,c2) ->
         hy += 1
   return hx + hy - hr
 
-nz.Graph.calcMapXY = (x,y) ->
+nz.Graph.pos2mapXY = (x,y) ->
   if typeof x is 'object'
     {
       x
@@ -41,6 +41,14 @@ nz.Graph.calcMapXY = (x,y) ->
   mapy = ((y - SCREEN_HEIGHT / 2) / MAP_CHIP_SIZE).round()
   {mapx:mapx,mapy:mapy}
 
-nz.Graph.neighborPositions = (pos) ->
+nz.Graph.mapXY2pos = (mapx,mapy) ->
+    w = h = MAP_CHIP_SIZE
+    x = mapx * w
+    y = mapy * h
+    if Math.abs(mapx % 2) == 1
+      y += h / 2
+    {x:x,y:y}
+
+nz.Graph.neighborMapXY = (mapx,mapy) ->
   l = []
   return l

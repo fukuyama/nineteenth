@@ -43,16 +43,10 @@ phina.define 'nz.MapSprite',
 
   currentMapXY : -> @calcMapXY(@x,@y)
   calcMapXY : (x,y) ->
-    if typeof x is 'object'
-      {
-        x
-        y
-      } = x
-    mapx = ((x - SCREEN_WIDTH  / 2) / MAP_CHIP_SIZE).round() + @mapx
-    if Math.abs(mapx % 2) == 1
-      y -= MAP_CHIP_SIZE / 2
-    mapy = ((y - SCREEN_HEIGHT / 2) / MAP_CHIP_SIZE).round() + @mapy
-    {mapx:mapx,mapy:mapy}
+    addr = nz.Graph.pos2mapXY x,y
+    addr.mapx += @mapx
+    addr.mapy += @mapy
+    addr
 
   subscribeMapCell: (param) ->
     self = @
@@ -161,15 +155,12 @@ phina.define 'nz.MapSprite',
       mapy
     } = param
     return @_chips[mapx][mapy] if @_chips[mapx]?[mapy]?
-    w = h = MAP_CHIP_SIZE
-    x = (mapx + @mapx) * w
-    y = (mapy + @mapy) * h
-    if Math.abs(mapx % 2) == 1
-      y += h / 2
-    chip = phina.display.Sprite('map_chip',w,h)
+    sz = MAP_CHIP_SIZE
+    {x,y} = nz.Graph.mapXY2pos(mapx+@mapx,mapy+@mapy)
+    chip = phina.display.Sprite('map_chip',sz,sz)
       .addChildTo(@)
       .setPosition(x,y)
-      .setFrameIndex(index,w,h)
+      .setFrameIndex(index,sz,sz)
       .setInteractive(true)
       .setBoundingType('rect')
       .on 'pointstart', @_chipPointStart.bind @
@@ -182,6 +173,9 @@ phina.define 'nz.MapSprite',
     @_chips[mapx] = {} unless @_chips[mapx]?
     @_chips[mapx][mapy] = chip
     return chip
+
+  getMapPosition: (mapx,mapy) ->
+    @_chips[mapx]?[mapy]?.position
 
   blink: (mapx,mapy) ->
     if @_blinks[mapx]?[mapy]?
@@ -239,6 +233,3 @@ phina.define 'nz.MapSprite',
     @_dragFlag  = false
     @_pointChip = null
     return
-
-  getMapPosition: (mapx,mapy) ->
-    @_chips[mapx]?[mapy]?.position

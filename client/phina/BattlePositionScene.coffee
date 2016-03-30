@@ -18,7 +18,7 @@ phina.define 'nz.BattlePositionScene',
 
     @on 'pointend', (e) ->
       pos = @mapSprite.calcMapXY e.pointer
-      l = @calcDistanceAddress(pos,3)
+      l = @calcDistanceAddress(pos,2)
       for a in l
         @mapSprite.blink(a.mapx,a.mapy)
       @exit()
@@ -33,6 +33,6 @@ phina.define 'nz.BattlePositionScene',
     for x in [mapx - distance .. mapx + distance]
       for y in [mapy - distance .. mapy + distance]
         p1 = {mapx:x,mapy:y}
-        if nz.Graph.direction(pos,p1) is distance
+        if nz.Graph.distance(pos,p1) is distance
           l.push p1
     return l
