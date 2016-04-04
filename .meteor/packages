@@ -31,6 +31,5 @@ accounts-password
 aldeed:simple-schema
 aldeed:collection2
 reactive-var
-nineteenth:initial-data
 standard-minifier-css
 standard-minifier-js

@@ -72,7 +72,6 @@ mongo@1.1.5
 mongo-id@1.0.2
 mquandalle:jade@0.4.9
 mquandalle:jade-compiler@0.4.5
-nineteenth:initial-data@0.0.1
 npm-bcrypt@0.7.8_2
 npm-mongo@1.4.41
 oauth@1.1.8

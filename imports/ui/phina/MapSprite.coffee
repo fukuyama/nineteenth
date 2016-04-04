@@ -187,15 +187,15 @@ phina.define 'nz.MapSprite',
     blink = phina.display.RectangleShape(
       width  : w
       height : h
-      strokeStyle : 'white'
-      fillStyle   : 'white'
+      stroke : 'gray'
+      fill   : 'gray'
     )
       .addChildTo(@)
       .setPosition(x,y)
       .setInteractive(true)
       .setVisible(true)
 
-    blink.tweener.clear().fade(0.5,300).fade(0.1,300).setLoop(true)
+    blink.tweener.clear().fade(0.5,500).fade(0.1,500).setLoop(true)
     @_blinks[mapx] = [] unless @_blinks[mapx]?
     @_blinks[mapx][mapy] = blink
     return
