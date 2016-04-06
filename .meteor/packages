@@ -33,3 +33,8 @@ aldeed:collection2
 reactive-var
 standard-minifier-css
 standard-minifier-js
+reywood:publish-composite
+dburles:collection-helpers
+mdg:validated-method
+ddp-rate-limiter
+underscore

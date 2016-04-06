@@ -1,53 +1,35 @@
-import { Mongo } from 'meteor/mongo';
-import { publish } from '/imports/api/functions.js';
+import { Meteor } from 'meteor/meteor';
 
-export const Characters = new Mongo.Collection('Characters');
+import { Groups } from '/imports/api/groups/groups.js';
+import { Characters } from '/imports/api/characters/characters.js';
 
-Characters.schema = new SimpleSchema({
-  name : {
-    type  : String,
-    label : 'Name'
-  },
-  createdAt : {
-    type  : Date,
-    label : 'CreatedAt'
-  },
-  owner : {
-    type  : String,
-    label : 'UserID'
-  },
-  type : {
-    type  : String,
-    label : 'Type'
-  },
-  group : {
-    type  : String,
-    label : 'Group',
-    defaultValue : '',
-    optional: true
+const CharacterGroups = {
+  collectionName : 'CharacterGroups',
+  find(character) {
+    return Groups.find({_id : character.groupId});
   }
+};
+
+Meteor.publishComposite('OwnerCharacters', function (ownerId=this.userId) {
+  return {
+    collectionName : 'OwnerCharacters',
+    find() {
+      return Characters.find({ownerId : ownerId});
+    },
+    children : [
+      CharacterGroups
+    ]
+  };
 });
 
-Characters.attachSchema(Characters.schema);
-
-publish('Characters.At', (id) => {
-  return Characters.find({_id : id});
-});
-
-publish('Characters.Owner', (owner = this.userId) => {
-  return Characters.find({owner : owner});
-});
-
-publish('Characters.Group', (group) => {
-  if (!Array.isArray(group)) {
-    group = [group];
-  }
-  return Characters.find({group : {$in : group}});
-});
-
-publish('Characters.GroupOther', (group) => {
-  return Characters.find({
-    owner : this.userId,
-    group : {$ne : group}
-  });
+Meteor.publishComposite('Characters', function (id) {
+  return {
+    collectionName : 'Characters',
+    find() {
+      return Characters.find({_id : id});
+    },
+    children : [
+      CharacterGroups
+    ]
+  };
 });

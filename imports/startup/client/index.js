@@ -1,8 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 
-import '../../ui/view/body.js';
+import './accounts-ui-config.js';
 
-import './accountsUiConfig.js';
+import '../../ui/layouts/app-main.js';
 
 Meteor.startup( () => {
   Session.setDefault(
@@ -13,4 +13,8 @@ Meteor.startup( () => {
       mapy : 0
     }
   );
+
+  Tracker.autorun( () => {
+    Meteor.subscribe('CharacterTypes');
+  });
 });

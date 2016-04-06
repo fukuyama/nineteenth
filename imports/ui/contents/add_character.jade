@@ -6,7 +6,7 @@ template(name='add_character')
         input.form.control(name="name")
       label Type
       div.input-group
-        select(name="type")
+        select(name="typeId")
           each characterTypes
             option(value="#{_id}")= name
       div.input-group
