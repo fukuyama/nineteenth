@@ -1,10 +1,14 @@
 import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
-export const GroupsAt = new Mongo.Collection('GroupsAt');
+export const Groups = new Mongo.Collection('Groups');
 export const OwnerGroups = new Mongo.Collection('OwnerGroups');
 
-export const Groups = new Mongo.Collection('Groups');
+Groups.deny({
+  insert() { return true; },
+  update() { return true; },
+  remove() { return true; }
+});
 
 Groups.schema = new SimpleSchema({
   name : {

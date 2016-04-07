@@ -8,7 +8,7 @@ import { OwnerGroups } from '/imports/api/groups/groups.js';
 import './groups.jade';
 
 FlowRouter.route('/groups', {
-  name   : 'groups',
+  name : 'groups',
   subscriptions(param) {
     this.register('OwnerGroups', Meteor.subscribe('OwnerGroups'));
   },
@@ -19,6 +19,6 @@ FlowRouter.route('/groups', {
 
 Template.groups.helpers({
   groups() {
-    OwnerGroups.find({owner : this.userId()},{sort: {createdAt: 1}});
+    return OwnerGroups.find({ownerId : Meteor.userId()},{sort: {createdAt: 1}});
   }
 });

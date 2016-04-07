@@ -1,9 +1,10 @@
 template(name='character_view')
   div.container.character-view
-    +Template.dynamic template="character" data=character
+    +Template.dynamic template='character' data=character
 
 template(name='character')
     p= name
     p= group.name
+    p= type.name
     if isOwner
       button.btn.btn-defult.delete Delete

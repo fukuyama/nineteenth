@@ -36,5 +36,6 @@ standard-minifier-js
 reywood:publish-composite
 dburles:collection-helpers
 mdg:validated-method
+mdg:validation-error
 ddp-rate-limiter
 underscore

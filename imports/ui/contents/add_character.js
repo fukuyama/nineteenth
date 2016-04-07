@@ -28,7 +28,12 @@ Template.add_character.events({
     addCharacter.call({
       name   : event.target.name.value,
       typeId : event.target.typeId.value
+    }, (err, res) => {
+      if (err) {
+        console.log(err);
+        return
+      }
+      FlowRouter.go('/characters');
     });
-    FlowRouter.go('/characters');
   }
 });

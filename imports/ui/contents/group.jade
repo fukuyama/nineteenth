@@ -1,6 +1,6 @@
 template(name='group_view')
   div.container.group-view
-    +Template.dynamic template="group" data=group
+    +Template.dynamic template='group' data=group
 
 template(name='group')
   p= name
@@ -11,12 +11,18 @@ template(name='group')
     ul.list-group
       each members
         if isOwner
-          a.list-group-item.delete-member(href="#")= name
+          a.list-group-item.delete-member(href='#')
+            = name
+            = group.name
         else
-          li.list-group-item= name
+          li.list-group-item
+            = name
+            = group.name
 
   if isOwner
     p Characters
       ul.list-group
         each characters
-          a.list-group-item.add-member(href="#")= name
+          a.list-group-item.add-member(href='#')
+            = name
+            = group.name

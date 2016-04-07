@@ -3,11 +3,11 @@ template(name='add_character')
     form.add_character
       label Name
       div.input-group
-        input.form.control(name="name")
+        input.form.control(name='name')
       label Type
       div.input-group
-        select(name="typeId")
+        select(name='typeId')
           each characterTypes
             option(value="#{_id}")= name
       div.input-group
-        button.btn.btn-default.ok(type="submit") OK
+        button.btn.btn-default.ok(type='submit') OK

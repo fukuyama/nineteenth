@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 
 import './accounts-ui-config.js';
 
-import '../../ui/layouts/app-main.js';
+import '/imports/ui/layouts/app-main.js';
 
 Meteor.startup( () => {
   Session.setDefault(
@@ -14,7 +14,6 @@ Meteor.startup( () => {
     }
   );
 
-  Tracker.autorun( () => {
-    Meteor.subscribe('CharacterTypes');
-  });
+  Meteor.subscribe('CharacterTypes');
+  Meteor.subscribe('OwnerCharacters');
 });
