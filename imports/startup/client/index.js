@@ -16,4 +16,5 @@ Meteor.startup( () => {
 
   Meteor.subscribe('CharacterTypes');
   Meteor.subscribe('OwnerCharacters');
+  Meteor.subscribe('OwnerGroups');
 });

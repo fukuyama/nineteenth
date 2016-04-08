@@ -11,3 +11,5 @@ import '../contents/add_character.js';
 import '../contents/groups.js';
 import '../contents/group.js';
 import '../contents/add_group.js';
+
+import '../contents/battle.js';

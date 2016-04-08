@@ -9,9 +9,6 @@ import './groups.jade';
 
 FlowRouter.route('/groups', {
   name : 'groups',
-  subscriptions(param) {
-    this.register('OwnerGroups', Meteor.subscribe('OwnerGroups'));
-  },
   action() {
     BlazeLayout.render('main',{content : 'groups'});
   }

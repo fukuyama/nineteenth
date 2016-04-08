@@ -8,21 +8,18 @@ template(name='group')
     button.btn.btn-defult.delete-group Delete
 
   p Members
-    ul.list-group
+    ul.list-group.row
       each members
         if isOwner
-          a.list-group-item.delete-member(href='#')
-            = name
-            = group.name
+          a.list-group-item.col-xs-12.delete-member(href='#')
+            +character_list_item
         else
-          li.list-group-item
-            = name
-            = group.name
+          li.list-group-item.col-xs-12
+            +character_list_item
 
   if isOwner
     p Characters
-      ul.list-group
+      ul.list-group.row
         each characters
-          a.list-group-item.add-member(href='#')
-            = name
-            = group.name
+          a.list-group-item.col-xs-12.add-member(href='#')
+            +character_list_item

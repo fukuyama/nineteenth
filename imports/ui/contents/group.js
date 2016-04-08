@@ -15,7 +15,6 @@ FlowRouter.route('/groups/:groupId', {
   subscriptions({groupId}) {
     this.register('Groups', Meteor.subscribe('Groups', groupId));
     this.register('GroupCharacters', Meteor.subscribe('GroupCharacters', groupId));
-    //this.register('OwnerCharacters', Meteor.subscribe('OwnerCharacters'));
   },
   action(param) {
     BlazeLayout.render('main', {
