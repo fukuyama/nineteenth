@@ -8,10 +8,7 @@ import { Characters } from '/imports/api/characters/characters.js';
 
 export const addCharacter = new ValidatedMethod({
   name : 'Characters.add',
-  validate : new SimpleSchema({
-    name   : { type : String, label : 'character name', min : 1 },
-    typeId : { type : String }
-  }).validator(),
+  validate : Characters.schema.pick(['name','typeId']).validator(),
   run({ name, typeId }) {
     const userId = Meteor.userId();
     if (!userId) {
@@ -29,9 +26,7 @@ export const addCharacter = new ValidatedMethod({
 
 export const deleteCharacter = new ValidatedMethod({
   name : 'Characters.delete',
-  validate : new SimpleSchema({
-    id : { type : String, min : 1 }
-  }).validator(),
+  validate : new SimpleSchema({id : { type : String, min : 1 }}).validator(),
   run({ id }) {
     const userId = Meteor.userId();
     if (!userId) {

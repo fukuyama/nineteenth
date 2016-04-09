@@ -30,23 +30,25 @@ Characters.deny({
 Characters.schema = new SimpleSchema({
   name : {
     type  : String,
-    label : 'Name'
+    label : 'character name',
+    min   : 1
   },
   createdAt : {
     type  : Date,
-    label : 'CreatedAt'
+    label : 'character create time'
   },
   ownerId : {
     type  : String,
-    label : 'OwnerId'
+    label : 'character owner id',
+    min   : 1
   },
   typeId : {
     type  : String,
-    label : 'TypeID'
+    label : 'character type id'
   },
   groupId : {
     type  : String,
-    label : 'GroupID',
+    label : 'character group id',
     defaultValue : '',
     optional: true
   }

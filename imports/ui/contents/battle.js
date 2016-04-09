@@ -18,8 +18,7 @@ FlowRouter.route('/battle', {
 Template.battle.onRendered( function () {
   console.log('Template.battle.onRendered');
 
-  this.autorun( () => {
-  });
+  //this.subscribe('GroupCharacters', groupId);
 
   /*
   ins = @
