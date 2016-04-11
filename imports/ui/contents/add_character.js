@@ -11,6 +11,9 @@ import './add_character.jade';
 
 FlowRouter.route('/add_character', {
   name   : 'add character',
+  subscriptions() {
+    this.register('CharacterTypes', Meteor.subscribe('CharacterTypes'));
+  },
   action : function () {
     BlazeLayout.render('main',{content : 'add_character'});
   }

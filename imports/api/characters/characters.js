@@ -4,6 +4,7 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 export const Characters = new Mongo.Collection('Characters');
 export const OwnerCharacters = new Mongo.Collection('OwnerCharacters');
 export const GroupCharacters = new Mongo.Collection('GroupCharacters');
+export const OtherGroupCharacters = new Mongo.Collection('OtherGroupCharacters');
 
 const RelartedCharacterGroups = new Mongo.Collection('RelartedCharacterGroups');
 const RelartedCharacterTypes = new Mongo.Collection('RelartedCharacterTypes');
@@ -20,9 +21,13 @@ const characterHelpers = {
 Characters.helpers(characterHelpers);
 OwnerCharacters.helpers(characterHelpers);
 GroupCharacters.helpers(characterHelpers);
+OtherGroupCharacters.helpers(characterHelpers);
 
 Characters.deny({
-  insert() { return true; },
+  insert() {
+    console.log('Characters.deny');
+    return true;
+  },
   update() { return true; },
   remove() { return true; }
 });

@@ -9,6 +9,9 @@ import './characters.jade';
 
 FlowRouter.route('/characters',{
   name : 'characters',
+  subscriptions() {
+    this.register('OwnerCharacters', Meteor.subscribe('OwnerCharacters'));
+  },
   action() {
     BlazeLayout.render('main',{content : 'characters'});
   }

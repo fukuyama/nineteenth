@@ -3,8 +3,8 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 import { Template } from 'meteor/templating';
 
-import { OwnerCharacters, GroupCharacters } from '/imports/api/characters/characters.js';
 import { Groups } from '/imports/api/groups/groups.js';
+import { GroupCharacters, OtherGroupCharacters } from '/imports/api/characters/characters.js';
 
 import { deleteGroup, addMemberToGroup, deleteMemberToGroup } from '/imports/api/groups/methods.js';
 
@@ -15,6 +15,7 @@ FlowRouter.route('/groups/:groupId', {
   subscriptions({groupId}) {
     this.register('Groups', Meteor.subscribe('Groups', groupId));
     this.register('GroupCharacters', Meteor.subscribe('GroupCharacters', groupId));
+    this.register('OtherGroupCharacters', Meteor.subscribe('OtherGroupCharacters', groupId));
   },
   action(param) {
     BlazeLayout.render('main', {
@@ -40,7 +41,7 @@ Template.group.helpers({
     });
   },
   characters() {
-    return OwnerCharacters.find({
+    return OtherGroupCharacters.find({
       ownerId : Meteor.userId(),
       groupId : {$ne : this._id}
     });

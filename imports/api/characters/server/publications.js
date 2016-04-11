@@ -46,3 +46,17 @@ Meteor.publishComposite('GroupCharacters', function (groupId) {
     children : relartedChildren
   };
 });
+
+Meteor.publishComposite('OtherGroupCharacters', function (groupId) {
+  const userId = this.userId;
+  return {
+    collectionName : 'OtherGroupCharacters',
+    find() {
+      return Characters.find({
+        ownerId : userId,
+        groupId : {$ne : groupId}
+      });
+    },
+    children : relartedChildren
+  };
+});
