@@ -6,7 +6,8 @@ import { Template } from 'meteor/templating';
 import { Groups } from '/imports/api/groups/groups.js';
 import { GroupCharacters, OtherGroupCharacters } from '/imports/api/characters/characters.js';
 
-import { deleteGroup, addMemberToGroup, deleteMemberToGroup } from '/imports/api/groups/methods.js';
+import { deleteGroup } from '/imports/api/groups/methods.js';
+import { addMemberToGroup, deleteMemberToGroup } from '/imports/api/characters/methods.js';
 
 import './group.jade';
 

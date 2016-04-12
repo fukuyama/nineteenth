@@ -49,7 +49,8 @@ Characters.schema = new SimpleSchema({
   },
   typeId : {
     type  : String,
-    label : 'character type id'
+    label : 'character type id',
+    min   : 1
   },
   groupId : {
     type  : String,

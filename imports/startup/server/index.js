@@ -4,6 +4,8 @@ import { Meteor } from 'meteor/meteor';
 // as an API to the client.
 import './register-api.js';
 
+import './initial-data.js';
+
 Meteor.startup( () => {
   // code to run on server at startup
 });

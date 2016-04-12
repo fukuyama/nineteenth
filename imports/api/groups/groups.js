@@ -13,15 +13,17 @@ Groups.deny({
 Groups.schema = new SimpleSchema({
   name : {
     type  : String,
-    label : 'Name'
+    label : 'group name',
+    min   : 1
   },
   createdAt : {
     type  : Date,
-    label : 'CreatedAt'
+    label : 'group create time'
   },
   ownerId : {
     type  : String,
-    label : 'OwnerId'
+    label : 'group owner id',
+    min   : 1
   }
 });
 
