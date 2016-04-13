@@ -49,3 +49,5 @@ Meteor.publishComposite('JoinBattles', function (userId=this.userId) {
     children : relartedChildren
   };
 });
+
+//Meteor.publishComposite.enableDebugLogging();

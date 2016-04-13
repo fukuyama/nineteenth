@@ -54,6 +54,35 @@ export const addGroupToBattle = new ValidatedMethod({
   }
 });
 
+export const deleteGroupToBattle = new ValidatedMethod({
+  name : 'Battles.deleteGroup',
+  validate : new SimpleSchema({
+    id      : {type : String, min : 1},
+    groupId : {type : String, min : 1}
+  }).validator(),
+  run({ id, groupId }) {
+    const userId = authorizedUserId();
+    if (!this.isSimulation) {
+      const battle = Battles.findOne({
+        _id : id,
+        joinUsersId : userId
+      });
+      if (!battle) {
+        throw new Meteor.Error('not-found',id);
+      }
+      if (_.contains(battle.groupsId,groupId)) {
+        console.log('del',battle.name,groupId);
+        Battles.update(
+          {_id   : id},
+          {$pull : {groupsId : groupId}}
+        );
+      } else {
+        console.log('not found',battle.name,groupId);
+      }
+    }
+  }
+});
+
 // Get list of all method names on Lists
 const METHODS = _.pluck([
   addBattle,
