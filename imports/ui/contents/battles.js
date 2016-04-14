@@ -5,7 +5,7 @@ import { Template } from 'meteor/templating';
 import { _ } from 'meteor/underscore';
 
 import { AllMapData } from '/imports/api/map-data/map-data.js';
-import { Battles, JoinBattlesId } from '/imports/api/battles/battles.js';
+import { JoinBattles } from '/imports/api/battles/battles.js';
 import { OwnerGroups } from '/imports/api/groups/groups.js';
 
 import { addBattle, deleteBattle, addGroupToBattle, deleteGroupToBattle } from '/imports/api/battles/methods.js';
@@ -16,8 +16,7 @@ FlowRouter.route('/battles', {
   name : 'battles',
   subscriptions() {
     this.register('AllMapData', Meteor.subscribe('AllMapData'));
-    //this.register('JoinBattles', Meteor.subscribe('JoinBattles'));
-    this.register('JoinBattlesId', Meteor.subscribe('JoinBattlesId'));
+    this.register('JoinBattles', Meteor.subscribe('JoinBattles'));
     this.register('OwnerGroups', Meteor.subscribe('OwnerGroups'));
   },
   action() {
@@ -25,32 +24,18 @@ FlowRouter.route('/battles', {
   }
 });
 
-//Template.battles.onRendered(function () {
-//  this.subscribe('JoinBattlesId');
-//});
-
 Template.battles.helpers({
   mapdata() {
     return AllMapData.find({},{sort: {createdAt: 1}});
   },
-  battlesId() {
-    return JoinBattlesId.find({},{sort: {createdAt: 1}});
+  battles() {
+    return JoinBattles.find({},{sort: {createdAt: 1}});
   }
 });
 
-Template.battle_list_item.onRendered(function () {
-  this.subscribe('Battles',this.data.battleId);
-});
-
 Template.battle_list_item.helpers({
-  battle() {
-    return Battles.findOne(this.battleId);
-  },
   ownerGroups() {
     return OwnerGroups.find({ownerId : Meteor.userId()},{sort: {createdAt: 1}});
-  },
-  isJoinedGorup() {
-    return false;
   }
 });
 
@@ -73,7 +58,7 @@ Template.battles.events({
 Template.battle_list_item.events({
   'change .select_group' : function (event) {
     event.preventDefault();
-    const battleId = this.battleId;
+    const battleId = this._id;
     const groupId  = event.target.value
     if (groupId == '-') {
       return
@@ -90,7 +75,7 @@ Template.battle_list_item.events({
   },
   'click .delete_group' : function (event) {
     event.preventDefault();
-    const battleId = Template.parentData(0).battleId;
+    const battleId = Template.parentData(0)._id;
     const groupId  = this._id;
     deleteGroupToBattle.call({
       id      : battleId,
@@ -104,9 +89,10 @@ Template.battle_list_item.events({
   },
   'click .delete_battle' : function (event) {
     event.preventDefault();
-    console.log('delete battle',this.battleId);
+    const battleId = this._id;
+    console.log('delete battle',battleId);
     deleteBattle.call({
-      id : this.battleId
+      id : battleId
     }, (err,res) => {
       if (err) {
         console.log(err);

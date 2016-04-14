@@ -3,9 +3,9 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 export const Battles = new Mongo.Collection('Battles');
 export const JoinBattles = new Mongo.Collection('JoinBattles');
-export const JoinBattlesId = new Mongo.Collection('JoinBattlesId');
 
 const RelartedMapData = new Mongo.Collection('RelartedMapData');
+const RelartedJoinUsers = new Mongo.Collection('RelartedJoinUsers');
 const RelartedJoinGroups = new Mongo.Collection('RelartedJoinGroups');
 const RelartedGroups = new Mongo.Collection('RelartedGroups');
 const RelartedGroupCharacters = new Mongo.Collection('RelartedGroupCharacters');
@@ -20,6 +20,9 @@ const battleHelpers = {
   mapdata() {
     return RelartedMapData.findOne({_id : this.mapId});
   },
+  //usersId() {
+  //  return RelartedJoinUsers.find({battleId : this._id}).map((join) => {return join.userId});
+  //},
   groups() {
     const ids = RelartedJoinGroups.find({battleId : this._id}).map((join) => {return join.groupId});
     return RelartedGroups.find({_id : {$in : ids}});

@@ -50,22 +50,19 @@ Meteor.publishComposite('Battles', function (id) {
 
 Meteor.publishComposite('JoinBattles', function (userId=this.userId) {
   return {
-    collectionName : 'JoinBattles',
-    find() {
-      const ids = BattleJoinUsers.find({userId : userId}).map((join) => {return join.battleId});
-      console.log('BattleJoinUsers',ids);
-      return Battles.find({_id : {$in : ids}});
-    },
-    children : relartedChildren
-  };
-});
-
-Meteor.publishComposite('JoinBattlesId', function (userId=this.userId) {
-  return {
-    collectionName : 'JoinBattlesId',
+    collectionName : 'RelartedJoinUsers',
     find() {
       return BattleJoinUsers.find({userId : userId});
-    }
+    },
+    children : [
+      {
+        collectionName : 'JoinBattles',
+        find(join) {
+          return Battles.find({_id : join.battleId});
+        },
+        children : relartedChildren
+      }
+    ]
   };
 });
 
