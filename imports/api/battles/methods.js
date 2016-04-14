@@ -6,22 +6,51 @@ import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 
 import { authorizedUserId } from '../lib/functions.js';
 
-import { Battles } from '/imports/api/battles/battles.js';
+import { Battles,JoinBattles } from '/imports/api/battles/battles.js';
+import { BattleJoinUsers } from '/imports/api/battles/battle-join-users.js';
+import { BattleJoinGroups } from '/imports/api/battles/battle-join-groups.js';
 
 export const addBattle = new ValidatedMethod({
   name : 'Battles.add',
   validate : Battles.schema.pick(['name','mapId']).validator(),
   run({ name, mapId }) {
     const userId = authorizedUserId();
-    const battle = {
-      name        : name,
-      createdAt   : new Date(),
-      ownerId     : userId,
-      status      : 'new',
-      joinUsersId : [userId],
-      mapId       : mapId
+    if (!this.isSimulation) {
+      const battle = {
+        name        : name,
+        createdAt   : new Date(),
+        ownerId     : userId,
+        status      : 'new',
+        mapId       : mapId
+      };
+      const battleId = Battles.insert(battle);
+      BattleJoinUsers.insert({
+        battleId : battleId,
+        userId   : userId
+      });
+    }
+  }
+});
+
+export const deleteBattle = new ValidatedMethod({
+  name : 'Battles.delete',
+  validate : new SimpleSchema({id : {type : String, min : 1}}).validator(),
+  run({ id }) {
+    const userId = authorizedUserId();
+    const query = {
+      _id     : id,
+      ownerId : userId
     };
-    Battles.insert(battle);
+    if (!this.isSimulation) {
+      const battle = Battles.findOne(query);
+      if (!battle) {
+        throw new Meteor.Error('not-found');
+      }
+      Battles.remove(query);
+      BattleJoinUsers.remove({
+        battleId : id
+      });
+    }
   }
 });
 
@@ -34,21 +63,29 @@ export const addGroupToBattle = new ValidatedMethod({
   run({ id, groupId }) {
     const userId = authorizedUserId();
     if (!this.isSimulation) {
-      const battle = Battles.findOne({
-        _id : id,
-        joinUsersId : userId
+      console.log({
+        battleId : id,
+        usersId  : userId
+      });
+      const battle = BattleJoinUsers.findOne({
+        battleId : id,
+        userId   : userId
       });
       if (!battle) {
         throw new Meteor.Error('not-found',id);
       }
-      if (!_.contains(battle.groupsId,groupId)) {
-        console.log('add',battle.name,groupId);
-        Battles.update(
-          {_id  : id},
-          {$push : {groupsId : groupId}}
-        );
+      const query = {
+        battleId : id,
+        groupId  : groupId
+      };
+      if (!BattleJoinGroups.findOne(query)) {
+        console.log('add',id,groupId);
+        BattleJoinGroups.insert({
+          battleId : id,
+          groupId  : groupId
+        });
       } else {
-        console.log('exist',battle.name,groupId);
+        console.log('exist',id,groupId);
       }
     }
   }
@@ -63,21 +100,29 @@ export const deleteGroupToBattle = new ValidatedMethod({
   run({ id, groupId }) {
     const userId = authorizedUserId();
     if (!this.isSimulation) {
-      const battle = Battles.findOne({
-        _id : id,
-        joinUsersId : userId
+      console.log({
+        battleId : id,
+        usersId  : userId
+      });
+      const battle = BattleJoinUsers.findOne({
+        battleId : id,
+        userId   : userId
       });
       if (!battle) {
         throw new Meteor.Error('not-found',id);
       }
-      if (_.contains(battle.groupsId,groupId)) {
-        console.log('del',battle.name,groupId);
-        Battles.update(
-          {_id   : id},
-          {$pull : {groupsId : groupId}}
-        );
+      const query = {
+        battleId : id,
+        groupId  : groupId
+      };
+      if (BattleJoinGroups.findOne(query)) {
+        console.log('del',id,groupId);
+        BattleJoinGroups.remove({
+          battleId : id,
+          groupId  : groupId
+        });
       } else {
-        console.log('not found',battle.name,groupId);
+        console.log('not found',id,groupId);
       }
     }
   }

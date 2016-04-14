@@ -8,23 +8,24 @@ template(name='battles')
           option(value="#{_id}")= name
       button.btn.btn-default.ok(type='submit') OK
     dev.list-group.row
-      each battles
-        div.list-group-item.row
-          +battle_list_item
+      each battlesId
+        +battle_list_item
 
 template(name='battle_list_item')
-  a.col-xs-3(href="/battles/#{_id}")
-    = name
-  dev.col-xs-3
-    = mapdata.name
-  dev.col-xs-3.btn-group.btn-group-xs
-    each groups
-      button.btn.btn-default.delete_group= name
-  dev.col-xs-2
-    select.select_group(name='groupId')
-      option(value="-") -
-      each ownerGroups
-        option(value="#{_id}")= name
-  dev.col-xs-1
-    a.js-delete-item.delete_battle(href='#')
-      span.glyphicon.glyphicon-remove(aria-hidden='true')
+  div.list-group-item.row
+    a.col-xs-3(href="/battles/#{_id}")
+      = battle.name
+      = battle._id
+    dev.col-xs-3
+      = battle.mapdata.name
+    dev.col-xs-3.btn-group.btn-group-xs
+      each battle.groups
+        button.btn.btn-default.delete_group= name
+    dev.col-xs-2
+      select.select_group(name='groupId')
+        option(value="-") -
+        each ownerGroups
+          option(value="#{_id}")= name
+    dev.col-xs-1
+      a.js-delete-item.delete_battle(href='#')
+        span.glyphicon.glyphicon-remove(aria-hidden='true')

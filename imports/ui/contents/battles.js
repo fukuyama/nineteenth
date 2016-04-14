@@ -5,10 +5,10 @@ import { Template } from 'meteor/templating';
 import { _ } from 'meteor/underscore';
 
 import { AllMapData } from '/imports/api/map-data/map-data.js';
-import { JoinBattles } from '/imports/api/battles/battles.js';
+import { Battles, JoinBattlesId } from '/imports/api/battles/battles.js';
 import { OwnerGroups } from '/imports/api/groups/groups.js';
 
-import { addBattle, addGroupToBattle, deleteGroupToBattle } from '/imports/api/battles/methods.js';
+import { addBattle, deleteBattle, addGroupToBattle, deleteGroupToBattle } from '/imports/api/battles/methods.js';
 
 import './battles.jade';
 
@@ -17,6 +17,7 @@ FlowRouter.route('/battles', {
   subscriptions() {
     this.register('AllMapData', Meteor.subscribe('AllMapData'));
     //this.register('JoinBattles', Meteor.subscribe('JoinBattles'));
+    this.register('JoinBattlesId', Meteor.subscribe('JoinBattlesId'));
     this.register('OwnerGroups', Meteor.subscribe('OwnerGroups'));
   },
   action() {
@@ -24,22 +25,27 @@ FlowRouter.route('/battles', {
   }
 });
 
-Template.battles.onRendered(function () {
-  this.subscribe('JoinBattles');
-});
+//Template.battles.onRendered(function () {
+//  this.subscribe('JoinBattlesId');
+//});
 
 Template.battles.helpers({
   mapdata() {
     return AllMapData.find({},{sort: {createdAt: 1}});
   },
-  battles() {
-    return JoinBattles.find({
-      joinUsersId : Meteor.userId()
-    },{sort: {createdAt: 1}});
+  battlesId() {
+    return JoinBattlesId.find({},{sort: {createdAt: 1}});
   }
 });
 
+Template.battle_list_item.onRendered(function () {
+  this.subscribe('Battles',this.data.battleId);
+});
+
 Template.battle_list_item.helpers({
+  battle() {
+    return Battles.findOne(this.battleId);
+  },
   ownerGroups() {
     return OwnerGroups.find({ownerId : Meteor.userId()},{sort: {createdAt: 1}});
   },
@@ -60,7 +66,6 @@ Template.battles.events({
         console.log(err);
         return
       }
-      FlowRouter.go('/battles');
     });
   }
 });
@@ -68,51 +73,45 @@ Template.battles.events({
 Template.battle_list_item.events({
   'change .select_group' : function (event) {
     event.preventDefault();
-    const battle  = this;
-    const groupId = event.target.value
+    const battleId = this.battleId;
+    const groupId  = event.target.value
     if (groupId == '-') {
       return
     }
-    if ( _.contains(battle.groupsId,groupId) ) {
-      return
-    }
     addGroupToBattle.call({
-      id      : battle._id,
+      id      : battleId,
       groupId : groupId
     }, (err,res) => {
       if (err) {
         console.log(err);
         return
       }
-      //FlowRouter.reload();
-      BlazeLayout.reset();
-      BlazeLayout.render('main',{content : 'battles'});
-      //location.reload();
-      //Meteor.subscribe('JoinBattles');
     });
   },
   'click .delete_group' : function (event) {
     event.preventDefault();
-    const battle = Template.parentData(0);
-    const groupId = this._id;
+    const battleId = Template.parentData(0).battleId;
+    const groupId  = this._id;
     deleteGroupToBattle.call({
-      id      : battle._id,
+      id      : battleId,
       groupId : groupId
     }, (err,res) => {
       if (err) {
         console.log(err);
         return
       }
-      FlowRouter.reload();
-      //BlazeLayout.reset();
-      //BlazeLayout.render('main',{content : 'battles'});
-      //location.reload();
-      //Meteor.subscribe('JoinBattles');
     });
   },
   'click .delete_battle' : function (event) {
     event.preventDefault();
-    const battle  = this;
-    console.log('delete battle',battle);
+    console.log('delete battle',this.battleId);
+    deleteBattle.call({
+      id : this.battleId
+    }, (err,res) => {
+      if (err) {
+        console.log(err);
+        return
+      }
+    });
   }
 });
