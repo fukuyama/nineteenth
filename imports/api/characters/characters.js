@@ -24,10 +24,7 @@ GroupCharacters.helpers(characterHelpers);
 OtherGroupCharacters.helpers(characterHelpers);
 
 Characters.deny({
-  insert() {
-    console.log('Characters.deny');
-    return true;
-  },
+  insert() { return true; },
   update() { return true; },
   remove() { return true; }
 });

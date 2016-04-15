@@ -7,12 +7,13 @@ export const JoinBattles = new Mongo.Collection('JoinBattles');
 const RelartedMapData = new Mongo.Collection('RelartedMapData');
 const RelartedJoinUsers = new Mongo.Collection('RelartedJoinUsers');
 const RelartedJoinGroups = new Mongo.Collection('RelartedJoinGroups');
+const RelartedUsers = new Mongo.Collection('RelartedUsers');
 const RelartedGroups = new Mongo.Collection('RelartedGroups');
 const RelartedGroupCharacters = new Mongo.Collection('RelartedGroupCharacters');
 
 RelartedGroups.helpers({
   characters() {
-    return RelartedGroupCharacters.find({groupsId : this._id});
+    return RelartedGroupCharacters.find({groupId : this._id});
   }
 });
 
@@ -20,9 +21,10 @@ const battleHelpers = {
   mapdata() {
     return RelartedMapData.findOne({_id : this.mapId});
   },
-  //usersId() {
-  //  return RelartedJoinUsers.find({battleId : this._id}).map((join) => {return join.userId});
-  //},
+  users() {
+    const ids = RelartedJoinUsers.find({battleId : this._id}).map((join) => {return join.userId});
+    return RelartedUsers.find({_id : {$in : ids}});
+  },
   groups() {
     const ids = RelartedJoinGroups.find({battleId : this._id}).map((join) => {return join.groupId});
     return RelartedGroups.find({_id : {$in : ids}});

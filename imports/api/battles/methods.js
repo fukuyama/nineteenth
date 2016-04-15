@@ -47,9 +47,8 @@ export const deleteBattle = new ValidatedMethod({
         throw new Meteor.Error('not-found');
       }
       Battles.remove(query);
-      BattleJoinUsers.remove({
-        battleId : id
-      });
+      BattleJoinUsers.remove({battleId : id});
+      BattleJoinGroups.remove({battleId : id});
     }
   }
 });
@@ -63,10 +62,6 @@ export const addGroupToBattle = new ValidatedMethod({
   run({ id, groupId }) {
     const userId = authorizedUserId();
     if (!this.isSimulation) {
-      console.log({
-        battleId : id,
-        usersId  : userId
-      });
       const battle = BattleJoinUsers.findOne({
         battleId : id,
         userId   : userId
@@ -79,13 +74,10 @@ export const addGroupToBattle = new ValidatedMethod({
         groupId  : groupId
       };
       if (!BattleJoinGroups.findOne(query)) {
-        console.log('add',id,groupId);
         BattleJoinGroups.insert({
           battleId : id,
           groupId  : groupId
         });
-      } else {
-        console.log('exist',id,groupId);
       }
     }
   }
@@ -100,10 +92,6 @@ export const deleteGroupToBattle = new ValidatedMethod({
   run({ id, groupId }) {
     const userId = authorizedUserId();
     if (!this.isSimulation) {
-      console.log({
-        battleId : id,
-        usersId  : userId
-      });
       const battle = BattleJoinUsers.findOne({
         battleId : id,
         userId   : userId
@@ -116,13 +104,10 @@ export const deleteGroupToBattle = new ValidatedMethod({
         groupId  : groupId
       };
       if (BattleJoinGroups.findOne(query)) {
-        console.log('del',id,groupId);
         BattleJoinGroups.remove({
           battleId : id,
           groupId  : groupId
         });
-      } else {
-        console.log('not found',id,groupId);
       }
     }
   }
@@ -131,7 +116,9 @@ export const deleteGroupToBattle = new ValidatedMethod({
 // Get list of all method names on Lists
 const METHODS = _.pluck([
   addBattle,
-  addGroupToBattle
+  deleteBattle,
+  addGroupToBattle,
+  deleteGroupToBattle
 ], 'name');
 
 if (Meteor.isServer) {

@@ -15,6 +15,19 @@ const relartedChildren = [
     }
   },
   {
+    find(battle) {
+      return BattleJoinUsers.find({battleId : battle._id});
+    },
+    children : [
+      {
+        collectionName : 'RelartedUsers',
+        find(join) {
+          return Meteor.users.find({_id : join.userId});
+        }
+      }
+    ]
+  },
+  {
     collectionName : 'RelartedJoinGroups',
     find(battle) {
       return BattleJoinGroups.find({battleId : battle._id})

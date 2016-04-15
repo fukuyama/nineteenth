@@ -9,6 +9,7 @@ import { JoinBattles } from '/imports/api/battles/battles.js';
 import { OwnerGroups } from '/imports/api/groups/groups.js';
 
 import { addBattle, deleteBattle, addGroupToBattle, deleteGroupToBattle } from '/imports/api/battles/methods.js';
+import { errorHandler } from '/imports/ui/lib/functions.js';
 
 import './battles.jade';
 
@@ -35,23 +36,18 @@ Template.battles.helpers({
 
 Template.battle_list_item.helpers({
   ownerGroups() {
-    return OwnerGroups.find({ownerId : Meteor.userId()},{sort: {createdAt: 1}});
+    return OwnerGroups.find({},{sort: {createdAt: 1}});
   }
 });
 
 Template.battles.events({
   'submit .add_battle': function (event) {
     event.preventDefault();
-    const mapdata = {
+    const param = {
       name  : event.target.name.value,
       mapId : event.target.mapId.value
     };
-    addBattle.call(mapdata, (err,res) => {
-      if (err) {
-        console.log(err);
-        return
-      }
-    });
+    addBattle.call(param, errorHandler());
   }
 });
 
@@ -63,41 +59,28 @@ Template.battle_list_item.events({
     if (groupId == '-') {
       return
     }
-    addGroupToBattle.call({
+    const param = {
       id      : battleId,
       groupId : groupId
-    }, (err,res) => {
-      if (err) {
-        console.log(err);
-        return
-      }
-    });
+    };
+    addGroupToBattle.call(param, errorHandler());
   },
   'click .delete_group' : function (event) {
     event.preventDefault();
     const battleId = Template.parentData(0)._id;
     const groupId  = this._id;
-    deleteGroupToBattle.call({
+    const param = {
       id      : battleId,
       groupId : groupId
-    }, (err,res) => {
-      if (err) {
-        console.log(err);
-        return
-      }
-    });
+    };
+    deleteGroupToBattle.call(param, errorHandler());
   },
   'click .delete_battle' : function (event) {
     event.preventDefault();
     const battleId = this._id;
-    console.log('delete battle',battleId);
-    deleteBattle.call({
+    const param = {
       id : battleId
-    }, (err,res) => {
-      if (err) {
-        console.log(err);
-        return
-      }
-    });
+    };
+    deleteBattle.call(param, errorHandler());
   }
 });

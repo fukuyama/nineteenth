@@ -4,12 +4,17 @@ import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 
-import { OwnerGroups } from '/imports/api/groups/groups.js';
+import { Battles } from '/imports/api/battles/battles.js';
+
+import { BattleApp } from '/imports/ui/phina/BattleApp.js';
 
 import './battle.jade';
 
-FlowRouter.route('/battle', {
-  name : 'battle',
+FlowRouter.route('/battles/:battleId', {
+  name : 'battles',
+  subscriptions({battleId}) {
+    this.register('Battles', Meteor.subscribe('Battles',battleId));
+  },
   action() {
     BlazeLayout.render('main',{content : 'battle'});
   }
@@ -17,20 +22,15 @@ FlowRouter.route('/battle', {
 
 Template.battle.onRendered( function () {
   console.log('Template.battle.onRendered');
-
-  //this.subscribe('GroupCharacters', groupId);
-
-  /*
-  ins = @
-  ins.autorun ->
-    ins.subscribe 'Groups.Owner',
-      onReady : ->
-        startBattle
-          mapid : 1
-          mapx  : 0
-          mapy  : 0
-          groups : for group in Groups.Owner.find().fetch() then group._id
-  */
+  this.autorun( () => {
+    FlowRouter.subsReady('Battles',function () {
+      const battleId = FlowRouter.getParam('battleId');
+      const battle = Battles.findOne({_id : battleId});
+      console.log('Battles ready');
+      app = BattleApp();
+      app.run();
+    });
+  });
 });
 
 Template.battle.onDestroyed( function () {
