@@ -39,3 +39,10 @@ mdg:validated-method
 mdg:validation-error
 ddp-rate-limiter
 underscore
+
+
+# testing
+dburles:factory
+xolvio:cleaner
+dispatch:mocha-phantomjs
+practicalmeteor:mocha
