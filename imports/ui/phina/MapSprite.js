@@ -3,6 +3,12 @@
  * 戦闘マップスプライト
  */
 
+import {
+  MAP_CHIP_SIZE,
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT
+} from '/imports/ui/lib/constants.js';
+
 phina.define('nz.MapSprite', {
   superClass: 'phina.display.DisplayElement',
 
@@ -52,6 +58,7 @@ phina.define('nz.MapSprite', {
   },
 
   subscribeMapCell(param) {
+    console.log('subscribeMapCell',param);
     this._handlers.push(
       Meteor.subscribe(
         'MapCells.Range',
@@ -104,7 +111,7 @@ phina.define('nz.MapSprite', {
     const vmaxx = - mapx + this.mapw;
     const vmaxy = - mapy + this.maph;
     const query = {
-      mapid : this.mapid,
+      mapId : this.mapId,
       min   : {x : vminx, y : vminy},
       max   : {x : vmaxx, y : vmaxy}
     };

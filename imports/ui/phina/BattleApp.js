@@ -1,5 +1,7 @@
 
 import './BattleScene.js';
+import './MapSprite.js';
+import './Graph.js';
 
 import {
   SCREEN_WIDTH,

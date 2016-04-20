@@ -27,7 +27,11 @@ Template.battle.onRendered( function () {
       const battleId = FlowRouter.getParam('battleId');
       const battle = Battles.findOne({_id : battleId});
       console.log('Battles ready');
-      app = BattleApp();
+      app = BattleApp({
+        mapId : battle.mapId,
+        mapx  : 0,
+        mapy  : 0
+      });
       app.run();
     });
   });
