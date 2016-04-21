@@ -22,17 +22,19 @@ phina.define('nz.BattleScene',{
       this.gridX.center(),
       this.gridY.center()
     );
-    /*
-    @on 'canvas.mouseout', (e) ->
-      @mapSprite.fire e
-    @on 'destroyed',       (e) ->
-      @mapSprite.fire e
-
-    @next @start_phase
-    */
+    this.on('canvas.mouseout', (e) => { this.mapSprite.fire(e) });
+    this.on('destroyed',       (e) => { this.mapSprite.fire(e) });
+    this.next('start_phase');
   },
 
   next (fn) {
+    if (typeof fn === 'string') {
+      if (! this[fn]) {
+        throw new Error('next ' + fn + ' not found.');
+        return;
+      }
+      fn = this[fn];
+    }
     this.update = fn;
   },
 
@@ -53,12 +55,14 @@ phina.define('nz.BattleScene',{
   },
 
   start_phase () {
-    this.next(this.map_load_phase);
+    this.next('map_load_phase');
   },
 
   map_load_phase () {
     if (this.mapSprite.mapReady()) {
-      this.next(this.character_load_phase);
+      console.log('map loaded.');
+      this.next();
+      // this.next(this.character_load_phase);
     }
   },
 

@@ -36,17 +36,18 @@ phina.define('nz.BattleApp', {
         ]
       }.$safe(param)
     );
-    /*
-    @subscribe 'Characters.Group', @groups
-
-    @on 'canvas.mouseout', (e) ->
-      @currentScene?.fire e
-    @on 'destroyed',       (e) ->
-      @currentScene?.fire e
-      @unsubscribes()
-    return
-    */
+    this.on('canvas.mouseout', (e) => {
+      if (this.currentScene) {
+        this.currentScene.fire(e);
+      }
+    });
+    this.on('destroyed', (e) => {
+      if (this.currentScene) {
+        this.currentScene.fire(e);
+      }
+    });
   },
+
   fitScreen(isEver = true) {
     self = this;
     const _fitFunc = function () {

@@ -3,6 +3,8 @@ import '/imports/api/character-types/server/publications.js';
 import '/imports/api/map-data/methods.js';
 import '/imports/api/map-data/server/publications.js';
 
+import '/imports/api/map-cells/server/publications.js';
+
 import '/imports/api/characters/methods.js';
 import '/imports/api/characters/server/publications.js';
 

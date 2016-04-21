@@ -20,13 +20,14 @@ FlowRouter.route('/battles/:battleId', {
   }
 });
 
+let app = undefined;
+
 Template.battle.onRendered( function () {
   console.log('Template.battle.onRendered');
   this.autorun( () => {
     FlowRouter.subsReady('Battles',function () {
       const battleId = FlowRouter.getParam('battleId');
       const battle = Battles.findOne({_id : battleId});
-      console.log('Battles ready');
       app = BattleApp({
         mapId : battle.mapId,
         mapx  : 0,
@@ -39,14 +40,15 @@ Template.battle.onRendered( function () {
 
 Template.battle.onDestroyed( function () {
   console.log('Template.battle.onDestroyed');
-  /*
-  app?.flare 'destroyed'
-  */
+  if (app) {
+    app.flare('destroyed',{app : app});
+    app = undefined;
+  }
 });
 
 $(document).on('mouseout', '.battle-canvas', function () {
   console.log('mouseout.battle-canvas');
-  /*
-  app?.flare 'canvas.mouseout'
-  */
+  if (app) {
+    app.flare('canvas.mouseout',{app : app});
+  }
 });

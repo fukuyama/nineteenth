@@ -54,8 +54,8 @@ nz.Graph = class Graph {
   }
 
   static mapXY2pos(mapx,mapy) {
-    x = mapx * MAP_CHIP_SIZE;
-    y = mapy * MAP_CHIP_SIZE;
+    let x = mapx * MAP_CHIP_SIZE;
+    let y = mapy * MAP_CHIP_SIZE;
     if (Math.abs(mapx % 2) == 1) {
       y += MAP_CHIP_SIZE / 2;
     }

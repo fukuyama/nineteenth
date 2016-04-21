@@ -2,12 +2,12 @@ import { Mongo } from 'meteor/mongo';
 
 import { MapCells } from '/imports/api/map-cells/map-cells.js';
 
-Meteor.publishComposite('MapCells', function ({mapId,max,min}) {
+Meteor.publishComposite('RangeMapCells', function ({mapId,max,min}) {
   return {
-    collectionName : 'MapCells',
+    collectionName : 'RangeMapCells',
     find() {
       return MapCells.find({
-        mapid : mapid,
+        mapId : mapId,
         mapx  : {
           $lt : max.x,
           $gt : min.x

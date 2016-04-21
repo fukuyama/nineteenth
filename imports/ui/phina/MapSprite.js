@@ -3,6 +3,8 @@
  * 戦闘マップスプライト
  */
 
+import { RangeMapCells } from '/imports/api/map-cells/map-cells.js';
+
 import {
   MAP_CHIP_SIZE,
   SCREEN_WIDTH,
@@ -37,9 +39,9 @@ phina.define('nz.MapSprite', {
     this._firstRun = true;
     this._handlers = [];
 
-    this.on('canvas.mouseout', () => {
+    this.on('canvas.mouseout', (e) => {
       if (this._dragFlag) {
-        app.mouse._end();
+        e.app.mouse._end();
       }
     });
     this.on('destroyed', () => {
@@ -58,14 +60,12 @@ phina.define('nz.MapSprite', {
   },
 
   subscribeMapCell(param) {
-    console.log('subscribeMapCell',param);
     this._handlers.push(
       Meteor.subscribe(
-        'MapCells.Range',
+        'RangeMapCells',
         param,
         {
-          onReady()
-          {
+          onReady : () => {
             this.createMapChips(param);
           }
         }
@@ -161,7 +161,7 @@ phina.define('nz.MapSprite', {
 
   createMapChips({mapId,min,max}) {
     // 表示範囲Map座標
-    MapCells.Range.find({
+    RangeMapCells.find({
       mapId : mapId,
       mapx  : {
         $gt : min.x,
@@ -212,7 +212,7 @@ phina.define('nz.MapSprite', {
       .on('pointend'  , this._chipPointEnd.bind(this));
     chip.mapx = mapx;
     chip.mapy = mapy;
-    if (this._chips[mapx]) {
+    if (!this._chips[mapx]) {
       this._chips[mapx] = {};
     }
     this._chips[mapx][mapy] = chip;

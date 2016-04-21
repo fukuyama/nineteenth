@@ -1,14 +1,29 @@
 
 import { MapData } from '/imports/api/map-data/map-data.js';
+import { MapCells } from '/imports/api/map-cells/map-cells.js';
 import { addMapData } from '/imports/api/map-data/methods.js';
 
 Meteor.startup( function () {
   const mapname = 'TEST MAP';
-  const map = MapData.findOne({name : mapname});
+  let map = MapData.findOne({name : mapname});
   if (!map) {
     addMapData.call({name : mapname});
-    data = MapData.findOne({name : mapname});
-    console.log('MapData initialized', data);
+    map = MapData.findOne({name : mapname});
+    console.log('MapData initialized', map);
+  }
+  const cell = MapCells.findOne({mapId : map._id});
+  if (!cell) {
+    for (let mapx = -50; mapx <= 50; mapx++) {
+      for (let mapy = -50; mapy <= 50; mapy++) {
+        MapCells.insert({
+          mapId : map._id,
+          index : 0,
+          mapx  : mapx,
+          mapy  : mapy
+        });
+      }
+    }
+    console.log('MapCells initialized');
   }
 });
 
