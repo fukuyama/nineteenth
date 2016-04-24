@@ -45,6 +45,8 @@ phina.define('nz.BattleApp', {
       if (this.currentScene) {
         this.currentScene.fire(e);
       }
+      this.ticker.stop();
+      console.log('ticker.stop()');
     });
   },
 

@@ -3650,11 +3650,11 @@ phina.namespace(function() {
 
       this.startTime = this.currentTime = (new Date()).getTime();
 
-      var fn = function() {
+      this._timeoutFn = function() {
         var delay = self.run();
-        setTimeout(fn, delay);
+        setTimeout(self._timeoutFn, delay);
       };
-      fn();
+      this._timeoutFn();
 
       return this;
     },
@@ -3664,7 +3664,7 @@ phina.namespace(function() {
     },
 
     stop: function() {
-      // TODO: 
+      self._timeoutFn = function() {};
     },
 
     rewind: function() {

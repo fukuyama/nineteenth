@@ -22,8 +22,15 @@ phina.define('nz.BattleScene',{
       this.gridX.center(),
       this.gridY.center()
     );
+    this.on('enter',() => {
+      this.app.ticker.tick( function (e) {
+        if (this.frame % 60 === 0) {
+          console.log('tick',this.frame);
+        }
+      });
+    });
     this.on('canvas.mouseout', (e) => { this.mapSprite.fire(e) });
-    this.on('destroyed',       (e) => { this.mapSprite.fire(e) });
+    this.on('destroyed', (e) => { this.mapSprite.fire(e) });
     this.next('start_phase');
   },
 
