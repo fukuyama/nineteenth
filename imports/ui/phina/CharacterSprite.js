@@ -25,28 +25,39 @@ phina.define('nz.CharacterSprite', {
     @frame = phina.accessory.FrameAnimation(spritesheet).attachTo(@sprite).gotoAndStop('down')
 
     @sprite.addChildTo @
+  },
+
+  setMapPosition(mapx,mapy) {
+    const pos = @parent.getMapPosition(mapx,mapy);
+    this.moveTo(pos.x, pos.y);
+  },
+
+  changeColor(image,changes) {
+    for (let c in changes) {
+      image.filter(this._createColorFilter(c.from, c.to));
+    }
+  },
+
+  _createColorFilter(a,b) {
+    if (b.length === 3) {
+      return function (pixel, index, x, y, imageData) {
+        if (pixel[0] === a[0] && pixel[1] === a[1] && pixel[2] === a[2]) {
+          imageData.data[index + 0] = b[0];
+          imageData.data[index + 1] = b[1];
+          imageData.data[index + 2] = b[2];
+        }
+      };
+    }
+    if (a.length === 4 && b.length === 4) {
+      return function (pixel, index, x, y, imageData) {
+        if (pixel[0] === a[0] && pixel[1] === a[1] && pixel[2] === a[2] && pixel[3] === a[3]) {
+          imageData.data[index + 0] = b[0];
+          imageData.data[index + 1] = b[1];
+          imageData.data[index + 2] = b[2];
+          imageData.data[index + 3] = b[3];
+        }
+      };
+    }
+    return undefined;
   }
-
-  setMapPosition: (mapx,mapy) ->
-    pos = @parent.getMapPosition mapx,mapy
-    @moveTo pos.x, pos.y
-
-  changeColor: (image,changes) ->
-    image.filter(@_createColorFilter(c.from, c.to) for c in changes)
-
-  _createColorFilter: (a,b) ->
-    if b.length is 3
-      return (pixel, index, x, y, imageData) ->
-        if pixel[0] is a[0] and pixel[1] is a[1] and pixel[2] is a[2]
-          imageData.data[index+0] = b[0]
-          imageData.data[index+1] = b[1]
-          imageData.data[index+2] = b[2]
-    if a.length is 4 and b.length is 4
-      return (pixel, index, x, y, imageData) ->
-        if pixel[0] is a[0] and pixel[1] is a[1] and pixel[2] is a[2] and pixel[3] is a[3]
-          imageData.data[index+0] = b[0]
-          imageData.data[index+1] = b[1]
-          imageData.data[index+2] = b[2]
-          imageData.data[index+3] = b[3]
-    return undefined
 });
