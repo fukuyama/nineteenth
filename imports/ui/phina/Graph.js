@@ -17,9 +17,9 @@ nz.Graph = class Graph {
    * @param {Object} c2 対象(mapx,mapy)
    */
   static distance(c1,c2) {
-    hx = Math.abs(c1.mapx - c2.mapx);
-    hy = Math.abs(c1.mapy - c2.mapy);
-    hr = Math.ceil(hx / 2);
+    const hx = Math.abs(c1.mapx - c2.mapx);
+    const hr = Math.ceil(hx / 2);
+    let hy   = Math.abs(c1.mapy - c2.mapy);
     if (hy < hr) {
       return hx;
     }
