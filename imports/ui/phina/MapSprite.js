@@ -246,7 +246,7 @@ phina.define('nz.MapSprite', {
      .setVisible(true);
 
     blink.tweener.clear().fade(0.5,500).fade(0.1,500).setLoop(true);
-    if (this._blinks[mapx]) {
+    if (!this._blinks[mapx]) {
       this._blinks[mapx] = {};
     }
     this._blinks[mapx][mapy] = blink;

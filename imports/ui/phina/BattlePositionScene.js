@@ -8,9 +8,7 @@ phina.define('nz.BattlePositionScene', {
 
   // 初期化
   init(param) {
-    console.log('BattlePositionScene init');
     this.superInit(param);
-    //this.setInteractive(true);
 
     this.characters = param.characters;
     this.mapSprite  = param.mapSprite;
@@ -19,7 +17,6 @@ phina.define('nz.BattlePositionScene', {
 
     // TEST:
     this.on('pointend', (e) => {
-      console.log('BattlePositionScene pointend',e);
       const pos = this.mapSprite.calcMapXY(e.pointer);
       this.setupPlacementArea(pos);
     });
@@ -27,9 +24,9 @@ phina.define('nz.BattlePositionScene', {
 
   setupPlacementArea(pos) {
     const l = this.calcDistanceAddress(pos,2);
-    for (a in l) {
+    l.forEach( (a) => {
       this.mapSprite.blink(a.mapx,a.mapy);
-    }
+    });
   },
 
   calcDistanceAddress(pos,distance) {
@@ -41,7 +38,7 @@ phina.define('nz.BattlePositionScene', {
     for (let x = minx; x < maxx; x++) {
       for (let y = miny; y < maxy; y++) {
         const p1 = {mapx:x,mapy:y};
-        if (nz.Graph.distance(pos,p1) < distance) {
+        if (nz.Graph.distance(pos,p1) <= distance) {
           l.push(p1);
         }
       }
