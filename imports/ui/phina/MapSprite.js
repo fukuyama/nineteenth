@@ -1,5 +1,5 @@
 /***
- * @file MapSprite.coffee
+ * @file MapSprite.js
  * 戦闘マップスプライト
  */
 

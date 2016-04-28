@@ -1,5 +1,5 @@
 /***
- * @file CharacterSprite.coffee
+ * @file CharacterSprite.js
  * キャラクタースプライト
  */
 

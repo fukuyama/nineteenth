@@ -1,5 +1,5 @@
 /***
- * @file BattlePositionScene.coffee
+ * @file BattlePositionScene.js
  * 戦闘開始シーン
  */
 

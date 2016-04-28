@@ -1,5 +1,5 @@
 /***
- * @file BattleScene.coffee
+ * @file BattleScene.js
  * 戦闘シーン
  */
 
