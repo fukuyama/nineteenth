@@ -35,8 +35,8 @@ phina.define('nz.BattlePositionScene', {
     const maxx = pos.mapx + distance;
     const maxy = pos.mapy + distance;
     const l = [];
-    for (let x = minx; x < maxx; x++) {
-      for (let y = miny; y < maxy; y++) {
+    for (let x = minx; x <= maxx; x++) {
+      for (let y = miny; y <= maxy; y++) {
         const p1 = {mapx:x,mapy:y};
         if (nz.Graph.distance(pos,p1) <= distance) {
           l.push(p1);

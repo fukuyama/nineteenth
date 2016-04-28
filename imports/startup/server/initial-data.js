@@ -1,6 +1,8 @@
 
 import { MapData } from '/imports/api/map-data/map-data.js';
 import { MapCells } from '/imports/api/map-cells/map-cells.js';
+import { CharacterTypes } from '/imports/api/character-types/character-types.js';
+
 import { addMapData } from '/imports/api/map-data/methods.js';
 
 Meteor.startup( function () {
@@ -24,6 +26,13 @@ Meteor.startup( function () {
       }
     }
     console.log('MapCells initialized');
+  }
+  if (CharacterTypes.find().count() == 0) {
+    const src = Assets.getText('data/character_type_001.json');
+    const obj = JSON.parse(src);
+    obj.createdAt = new Date();
+    CharacterTypes.insert(obj);
+    console.log('CharacterTypes initialized');
   }
 });
 
@@ -49,12 +58,6 @@ Meteor.startup( function () {
           mapy  : mapy
     console.log 'MapCell initialized'
 
-  if CharacterTypes.find().count() is 0
-    src = Assets.getText 'data/character_type_001.coffee'
-    obj = Npm.require('coffee-script').eval src
-    obj.createdAt = new Date()
-    CharacterTypes.insert obj
-    console.log 'CharacterTypes initialized'
 
   #if SpriteSheets.find().count() is 0
   #  src = Assets.getText 'data/character_test_ss.coffee'

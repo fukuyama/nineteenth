@@ -23,8 +23,8 @@ nz.Graph = class Graph {
     if (hy < hr) {
       return hx;
     }
-    if (hx % 2 == 1) {
-      if (c1.mapx % 2 == 0) {
+    if (hx % 2 === 1) {
+      if (c1.mapx % 2 === 0) {
         if (c1.mapy <= c2.mapy) {
           hy += 1;
         }

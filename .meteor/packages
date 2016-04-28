@@ -15,7 +15,6 @@ tracker                 # Meteor's client-side reactive programming library
 es5-shim                # ECMAScript 5 compatibility for older browsers.
 ecmascript              # Enable ECMAScript2015+ syntax in app code
 
-coffeescript
 mquandalle:jade
 kadira:blaze-layout
 kadira:flow-router
@@ -39,7 +38,6 @@ mdg:validated-method
 mdg:validation-error
 ddp-rate-limiter
 underscore
-
 
 # testing
 dburles:factory
