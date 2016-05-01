@@ -57,12 +57,5 @@ Meteor.startup( function () {
           mapx  : mapx
           mapy  : mapy
     console.log 'MapCell initialized'
-
-
-  #if SpriteSheets.find().count() is 0
-  #  src = Assets.getText 'data/character_test_ss.coffee'
-  #  obj = Npm.require('coffee-script').eval src
-  #  SpriteSheets.insert obj
-  #  console.log 'SpriteSheets initialized'
   return
 */
