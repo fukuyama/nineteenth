@@ -28,10 +28,20 @@ Template.battle.onRendered( function () {
     FlowRouter.subsReady('Battles',function () {
       const battleId = FlowRouter.getParam('battleId');
       const battle = Battles.findOne({_id : battleId});
+      let groups = [];
+      let characters = [];
+      battle.groups().forEach( (group) => {
+        groups.push(group);
+        group.characters().forEach( (character) => {
+          characters.push(character);
+        });
+      });
       app = BattleApp({
-        mapId : battle.mapId,
-        mapx  : 0,
-        mapy  : 0
+        mapId      : battle.mapId,
+        mapx       : 0,
+        mapy       : 0,
+        groups     : groups,
+        characters : characters
       });
       app.run();
     });

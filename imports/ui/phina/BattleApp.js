@@ -3,6 +3,7 @@ import './BattleScene.js';
 import './BattlePositionScene.js';
 import './MapSprite.js';
 import './Graph.js';
+import './CharacterSprite.js';
 
 import {
   SCREEN_WIDTH,

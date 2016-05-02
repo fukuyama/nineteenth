@@ -3,32 +3,40 @@
  * キャラクタースプライト
  */
 
+import {
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT,
+  MAP_CHIP_SIZE
+} from '/imports/ui/lib/constants.js';
+
 phina.define('nz.CharacterSprite', {
   superClass : 'phina.display.DisplayElement',
 
   // 初期化
   init(param) {
+    const image       = param.type.image;
+    const spritesheet = param.type.spritesheet;
+
     this.name = param.character.name;
-    {
-      image
-      spritesheet
-    } = param.type
+    
     this.superInit();
     this.setInteractive(true);
 
-    @sprite = phina.display.Sprite(image,MAP_CHIP_SIZE,MAP_CHIP_SIZE)
-    @sprite.image = @changeColor @sprite.image.clone(),[{
-      from : [255,255,255]
+    this.sprite = phina.display.Sprite(image,MAP_CHIP_SIZE,MAP_CHIP_SIZE);
+    this.sprite.image = this.changeColor(this.sprite.image.clone(),[{
+      from : [255,255,255],
       to   : [0,0,0]
-    }]
+    }]);
 
-    @frame = phina.accessory.FrameAnimation(spritesheet).attachTo(@sprite).gotoAndStop('down')
+    this.frame = phina.accessory.FrameAnimation(spritesheet)
+      .attachTo(this.sprite)
+      .gotoAndStop('down');
 
-    @sprite.addChildTo @
+    this.sprite.addChildTo(this);
   },
 
   setMapPosition(mapx,mapy) {
-    const pos = @parent.getMapPosition(mapx,mapy);
+    const pos = this.parent.getMapPosition(mapx,mapy);
     this.moveTo(pos.x, pos.y);
   },
 

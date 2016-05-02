@@ -3,6 +3,8 @@
  * 戦闘シーン
  */
 
+import { CharacterTypes } from '/imports/api/character-types/character-types.js';
+
 phina.define('nz.BattleScene',{
   superClass: 'phina.display.DisplayScene',
 
@@ -11,6 +13,17 @@ phina.define('nz.BattleScene',{
     this.superInit(param);
 
     this.characters = [];
+    param.characters.forEach( (character) => {
+      const type = CharacterTypes.findOne(character.typeId);
+      console.log(type);
+      console.log(character);
+      this.characters.push(
+        nz.CharacterSprite({
+          character : character,
+          type      : type
+        })
+      );
+    });
 
     this.mapSprite = nz.MapSprite({
       mapId : param.mapId,
