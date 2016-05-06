@@ -10,21 +10,29 @@ phina.define('nz.BattlePositionScene', {
   init(param) {
     this.superInit(param);
 
+    this.characterIndex = 0;
+
     this.characters = param.characters;
     this.mapSprite  = param.mapSprite;
-    this.mapx = param.mapx;
-    this.mapy = param.mapy;
 
-    // TEST:
-    this.on('pointend', (e) => {
-      const pos = this.mapSprite.calcMapXY(e.pointer);
-      this.setupPlacementArea(pos);
+    let pos = {
+      mapx : this.mapSprite.mapx,
+      mapy : this.mapSprite.mapy
+    };
+    // TEST: 北側
+    pos.mapy -= 5;
+    this.setupPlacementArea(pos);
+
+    this.on('map.pointend', (e) => {
+      if (this.mapSprite.existBlink(e.mapx,e.mapy)) {
+        const character = this.characters[this.characterIndex];
+        character.addChildTo(this.mapSprite).setMapPosition(e.mapx,e.mapy);
+      }
     });
   },
 
   setupPlacementArea(pos) {
-    const l = this.calcDistanceAddress(pos,2);
-    l.forEach( (a) => {
+    this.calcDistanceAddress(pos,2).forEach( (a) => {
       this.mapSprite.blink(a.mapx,a.mapy);
     });
   },

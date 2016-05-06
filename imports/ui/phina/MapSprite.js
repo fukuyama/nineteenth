@@ -253,14 +253,17 @@ phina.define('nz.MapSprite', {
   },
 
   _chipPointStart(e) {
+    this._dispatchEvent(e);
     this._pointFlag = true
     this._pointChip = e.target
   },
 
   _chipPointOver(e) {
+    this._dispatchEvent(e);
   },
 
   _chipPointMove(e) {
+    this._dispatchEvent(e);
     if (this._pointFlag) {
       this._dragFlag = true;
       this.moveTo(
@@ -271,6 +274,7 @@ phina.define('nz.MapSprite', {
   },
 
   _chipPointOut(e) {
+    this._dispatchEvent(e);
   },
 
   _chipPointEnd(e) {
@@ -278,11 +282,22 @@ phina.define('nz.MapSprite', {
       mapx : e.target.mapx,
       mapy : e.target.mapy
     });
+    this._dispatchEvent(e);
     if (this._dragFlag) {
       this.unsubscribeMapCell();
     }
     this._pointFlag = false;
     this._dragFlag  = false;
     this._pointChip = null;
+  },
+
+  _dispatchEvent(e) {
+    if (this.parent) {
+      this.parent.flare('map.' + e.type, {
+        mapx : e.target.mapx,
+        mapy : e.target.mapy
+      });
+    }
   }
+
 });

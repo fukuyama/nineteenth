@@ -15,7 +15,7 @@ phina.define('nz.CharacterSprite', {
   // 初期化
   init(param) {
     const image       = param.type.image;
-    const spritesheet = param.type.spritesheet;
+    const spriteSheet = param.type.spriteSheet;
 
     this.name = param.character.name;
     
@@ -28,7 +28,7 @@ phina.define('nz.CharacterSprite', {
       to   : [0,0,0]
     }]);
 
-    this.frame = phina.accessory.FrameAnimation(spritesheet)
+    this.frame = phina.accessory.FrameAnimation(spriteSheet)
       .attachTo(this.sprite)
       .gotoAndStop('down');
 
@@ -41,9 +41,10 @@ phina.define('nz.CharacterSprite', {
   },
 
   changeColor(image,changes) {
-    for (let c in changes) {
+    changes.forEach( (c) => {
       image.filter(this._createColorFilter(c.from, c.to));
-    }
+    });
+    return image;
   },
 
   _createColorFilter(a,b) {

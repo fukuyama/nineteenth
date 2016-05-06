@@ -15,8 +15,6 @@ phina.define('nz.BattleScene',{
     this.characters = [];
     param.characters.forEach( (character) => {
       const type = CharacterTypes.findOne(character.typeId);
-      console.log(type);
-      console.log(character);
       this.characters.push(
         nz.CharacterSprite({
           character : character,
@@ -104,9 +102,7 @@ phina.define('nz.BattleScene',{
       height     : this.height,
       groups     : this.groups,
       mapSprite  : this.mapSprite,
-      characters : this.characters,
-      mapx       : this.mapx,
-      mapy       : this.mapy
+      characters : this.characters
     });
     this.scene_phase(scene).next(this.start_turn);
   },
