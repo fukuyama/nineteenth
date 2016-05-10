@@ -27,6 +27,11 @@ phina.define('nz.BattlePositionScene', {
       if (this.mapSprite.existBlink(e.mapx,e.mapy)) {
         const character = this.characters[this.characterIndex];
         character.addChildTo(this.mapSprite).setMapPosition(e.mapx,e.mapy);
+        const scene = new nz.BattleDirectionScene({
+          character : character,
+          mapSprite : this.mapSprite
+        });
+        this.app.pushScene(scene);
       }
     });
   },

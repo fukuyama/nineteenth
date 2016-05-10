@@ -1,6 +1,7 @@
 
 import './BattleScene.js';
 import './BattlePositionScene.js';
+import './BattleDirectionScene.js';
 import './MapSprite.js';
 import './Graph.js';
 import './CharacterSprite.js';
