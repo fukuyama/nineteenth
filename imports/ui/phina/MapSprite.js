@@ -29,7 +29,6 @@ phina.define('nz.MapSprite', {
     this._blinks = {};
 
     this._pointFlag = false;
-    this._pointChip = null;
     this._mapReady  = false;
 
     this._range = {
@@ -40,13 +39,22 @@ phina.define('nz.MapSprite', {
     this._handlers = [];
 
     this.on('canvas.mouseout', (e) => {
-      if (this._dragFlag) {
-        e.app.mouse._end();
-      }
+      e.app.mouse._end();
     });
     this.on('destroyed', () => {
       this.unsubscribeMapCell(true);
     });
+  },
+
+  moveListener() {
+    return (e) => {
+      if (this.isDrag()) {
+        this.moveTo(
+          this.x + e.pointer.dx,
+          this.y + e.pointer.dy
+        );
+      }
+    };
   },
 
   currentMapXY() {
@@ -95,11 +103,11 @@ phina.define('nz.MapSprite', {
   moveTo(x,y) {
     this.x = x;
     this.y = y;
-    this.refreshMap();
+    this._refreshMap();
     return this;
   },
 
-  refreshMap() {
+  _refreshMap() {
     // 表示Map座標
     const pos  = this.currentMapXY();
     const mapx = pos.mapx;
@@ -154,7 +162,9 @@ phina.define('nz.MapSprite', {
       subscribe = true;
     }
     // TODO: 広げすぎたら消したいかも。ためしに、まずは、childrenからのみ除外で、必要な部分のみ追加する感じに
-    if (!subscribe) {
+    if (subscribe) {
+      this.unsubscribeMapCell();
+    } else {
       this.createMapChips(query);
     }
   },
@@ -252,10 +262,13 @@ phina.define('nz.MapSprite', {
     this._blinks[mapx][mapy] = blink;
   },
 
+  isDrag() {
+    return this._dragFlag;
+  },
+
   _chipPointStart(e) {
-    this._dispatchEvent(e);
     this._pointFlag = true
-    this._pointChip = e.target
+    this._dispatchEvent(e);
   },
 
   _chipPointOver(e) {
@@ -263,14 +276,10 @@ phina.define('nz.MapSprite', {
   },
 
   _chipPointMove(e) {
-    this._dispatchEvent(e);
     if (this._pointFlag) {
       this._dragFlag = true;
-      this.moveTo(
-        this.x + e.pointer.dx,
-        this.y + e.pointer.dy
-      );
     }
+    this._dispatchEvent(e);
   },
 
   _chipPointOut(e) {
@@ -278,24 +287,17 @@ phina.define('nz.MapSprite', {
   },
 
   _chipPointEnd(e) {
-    console.log('pointend', {
-      mapx : e.target.mapx,
-      mapy : e.target.mapy
-    });
-    this._dispatchEvent(e);
-    if (this._dragFlag) {
-      this.unsubscribeMapCell();
-    }
     this._pointFlag = false;
     this._dragFlag  = false;
-    this._pointChip = null;
+    this._dispatchEvent(e);
   },
 
   _dispatchEvent(e) {
     if (this.parent) {
       this.parent.flare('map.' + e.type, {
-        mapx : e.target.mapx,
-        mapy : e.target.mapy
+        mapx    : e.target.mapx,
+        mapy    : e.target.mapy,
+        pointer : e.pointer
       });
     }
   }

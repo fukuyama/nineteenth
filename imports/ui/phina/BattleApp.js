@@ -1,4 +1,5 @@
 
+import './BattleSceneBase.js';
 import './BattleScene.js';
 import './BattlePositionScene.js';
 import './BattleDirectionScene.js';

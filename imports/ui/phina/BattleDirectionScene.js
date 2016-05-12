@@ -4,13 +4,15 @@
  */
 
 phina.define('nz.BattleDirectionScene', {
-  superClass : 'phina.display.DisplayScene',
+  superClass : 'nz.BattleSceneBase',
 
   // 初期化
   init(param) {
     this.superInit(param);
 
-    console.log('BattleDirectionScene init');
+    this.on('enter', () => {
+      console.log('BattleDirectionScene enter');
+    });
 
     this.character = param.character;
     this.mapSprite = param.mapSprite;

@@ -4,7 +4,7 @@
  */
 
 phina.define('nz.BattlePositionScene', {
-  superClass : 'phina.display.DisplayScene',
+  superClass: 'nz.BattleSceneBase',
 
   // 初期化
   init(param) {
@@ -13,25 +13,27 @@ phina.define('nz.BattlePositionScene', {
     this.characterIndex = 0;
 
     this.characters = param.characters;
-    this.mapSprite  = param.mapSprite;
+    const mapSprite = this.mapSprite  = param.mapSprite;
 
     let pos = {
-      mapx : this.mapSprite.mapx,
-      mapy : this.mapSprite.mapy
+      mapx : mapSprite.mapx,
+      mapy : mapSprite.mapy
     };
     // TEST: 北側
     pos.mapy -= 5;
     this.setupPlacementArea(pos);
 
+    this.on('map.pointmove', mapSprite.moveListener());
+
     this.on('map.pointend', (e) => {
       if (this.mapSprite.existBlink(e.mapx,e.mapy)) {
         const character = this.characters[this.characterIndex];
-        character.addChildTo(this.mapSprite).setMapPosition(e.mapx,e.mapy);
+        character.addChildTo(mapSprite).setMapPosition(e.mapx,e.mapy);
         const scene = new nz.BattleDirectionScene({
           character : character,
-          mapSprite : this.mapSprite
+          mapSprite : mapSprite
         });
-        this.app.pushScene(scene);
+        this.scene_phase(scene);
       }
     });
   },
