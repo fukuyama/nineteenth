@@ -17,19 +17,28 @@ phina.define('nz.BattleDirectionScene', {
     this.character = param.character;
     this.mapSprite = param.mapSprite;
 
-    //const parent = this.mapSprite.parent;
-    //this.addChild(this.mapSprite);
-    // this.on('enter', () => {
-    //   this.addChild(this.mapSprite);
-    // });
     this.on('exit', () => {
       console.log('BattleDirectionScene exit');
-      //parent.addChild(this.mapSprite);
     });
 
     this.on('pointend', (e) => {
       this.exit();
     });
+    _createPointer();
+  },
+
+  _createPointer() {
+    this.pointer = tm.display.Shape({
+      width  : 10,
+      height : 10
+    }).addChildTo(this.character);
+    tm.display.CircleShape({
+      x         : 40,
+      width     : 10,
+      height    : 10,
+      fillStyle : 'blue'
+    }).addChildTo(this.pointer);
+    // this.pointer.rotation = this.target.body.rotation;
   }
 
 });
