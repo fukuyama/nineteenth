@@ -49,6 +49,38 @@ phina.define('nz.BattleSceneBase',{
         });
       }
     };
+  },
+
+  setupKeyboradHander() {
+    this.on('enterframe', this._createKeyboradHander());
+  },
+
+  _createKeyboradHander() {
+    const eventKeys      = ['up','down','left','right','enter','escape'];
+    const repeatDelay    = 10;
+    const repeatIntarval = 0;
+
+    let repeatCount = 0;
+
+    return (e) => {
+      const kb = e.app.keyboard;
+      eventKeys.forEach((key) => {
+        if (kb.getKeyDown(key)) {
+          repeatCount = 0;
+          this.fire(tm.event.Event('input_' + key));
+        }
+      });
+
+      eventKeys.forEach((key) => {
+        if (kb.getKey(key)) {
+          if (repeatDelay < repeatCount) {
+            this.fire(tm.event.Event('repeat_' + key));
+            repeatCount -= repeatIntarval;
+          }
+          repeatCount += 1;
+        }
+      });
+    };
   }
 
 });

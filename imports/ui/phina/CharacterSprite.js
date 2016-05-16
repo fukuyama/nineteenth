@@ -6,7 +6,8 @@
 import {
   SCREEN_WIDTH,
   SCREEN_HEIGHT,
-  MAP_CHIP_SIZE
+  MAP_CHIP_SIZE,
+  DIRECTIONS
 } from '/imports/ui/lib/constants.js';
 
 phina.define('nz.CharacterSprite', {
@@ -19,7 +20,10 @@ phina.define('nz.CharacterSprite', {
 
     this.name = param.character.name;
     
-    this.superInit();
+    this.superInit({
+      width  : MAP_CHIP_SIZE,
+      height : MAP_CHIP_SIZE
+    });
     this.setInteractive(true);
 
     this.sprite = phina.display.Sprite(image,MAP_CHIP_SIZE,MAP_CHIP_SIZE);
@@ -33,11 +37,24 @@ phina.define('nz.CharacterSprite', {
       .gotoAndStop('down');
 
     this.sprite.addChildTo(this);
+
+    this.body = tm.display.Shape({
+      backgroundColor : 'transparent',
+      width           : this.width,
+      height          : this.height
+    }).addChildTo(this.sprite);
   },
 
   setMapPosition(mapx,mapy) {
     const pos = this.parent.getMapPosition(mapx,mapy);
     this.moveTo(pos.x, pos.y);
+  },
+
+  setDirection(direction) {
+    const d = DIRECTIONS[this.direction];
+    this.body.rotation = d.rotation;
+    this.sprite.gotoAndPlay(d.name);
+    return this;
   },
 
   changeColor(image,changes) {

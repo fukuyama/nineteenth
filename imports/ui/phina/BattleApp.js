@@ -3,6 +3,8 @@ import './BattleSceneBase.js';
 import './BattleScene.js';
 import './BattlePositionScene.js';
 import './BattleDirectionScene.js';
+import './BattleRotatePointerScene.js';
+
 import './MapSprite.js';
 import './Graph.js';
 import './CharacterSprite.js';
