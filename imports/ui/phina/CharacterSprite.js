@@ -33,16 +33,17 @@ phina.define('nz.CharacterSprite', {
     }]);
 
     this.frame = phina.accessory.FrameAnimation(spriteSheet)
-      .attachTo(this.sprite)
-      .gotoAndStop('down');
+      .attachTo(this.sprite);
 
     this.sprite.addChildTo(this);
 
-    this.body = tm.display.Shape({
+    this.body = phina.display.Shape({
       backgroundColor : 'transparent',
       width           : this.width,
       height          : this.height
     }).addChildTo(this.sprite);
+
+    this.setDirection(0);
   },
 
   setMapPosition(mapx,mapy) {
@@ -51,6 +52,7 @@ phina.define('nz.CharacterSprite', {
   },
 
   setDirection(direction) {
+    this.direction = direction;
     const d = DIRECTIONS[this.direction];
     this.body.rotation = d.rotation;
     this.sprite.gotoAndPlay(d.name);

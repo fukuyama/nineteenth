@@ -67,14 +67,14 @@ phina.define('nz.BattleSceneBase',{
       eventKeys.forEach((key) => {
         if (kb.getKeyDown(key)) {
           repeatCount = 0;
-          this.fire(tm.event.Event('input_' + key));
+          this.fire(phina.event.Event('input_' + key));
         }
       });
 
       eventKeys.forEach((key) => {
         if (kb.getKey(key)) {
           if (repeatDelay < repeatCount) {
-            this.fire(tm.event.Event('repeat_' + key));
+            this.fire(phina.event.Event('repeat_' + key));
             repeatCount -= repeatIntarval;
           }
           repeatCount += 1;
