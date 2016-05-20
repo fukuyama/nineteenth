@@ -186,6 +186,27 @@ phina.define('nz.MapSprite', {
     if (this.parent) {
       this.parent.flare('map.refreshed');
     }
+    if (!this.cursor) {
+      this.cursor = this._createCursor();
+    }
+    this.cursor.addChildTo(this);
+  },
+
+  _createCursor() {
+    cursor = phina.display.Shape({
+      x           : 0,
+      y           : 0,
+      width       : MAP_CHIP_W,
+      height      : MAP_CHIP_H,
+      strokeStyle : 'red',
+      lineWidth   : 3,
+      visible     : true
+    });
+    cursor._render = function () {
+      canvas.strokeRect(0, 0, this.width, this.height);
+    };
+    cursor.render();
+    return cursor
   },
 
   mapReady() {
