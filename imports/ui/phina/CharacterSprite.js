@@ -55,7 +55,7 @@ phina.define('nz.CharacterSprite', {
     this.direction = direction;
     const d = DIRECTIONS[this.direction];
     this.body.rotation = d.rotation;
-    this.sprite.gotoAndPlay(d.name);
+    this.frame.gotoAndPlay(d.name);
     return this;
   },
 

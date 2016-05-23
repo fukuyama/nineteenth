@@ -34,6 +34,13 @@ phina.define('nz.BattleScene',{
       this.gridY.center()
     );
 
+    this.on('map.pointmove', this.mapSprite.moveListener());
+
+    this.setupKeyboradHander();
+    this.on('input_up', (e) => {
+      console.log('input_up',e);
+    });
+
     this.next('start_phase');
   },
 
@@ -44,7 +51,8 @@ phina.define('nz.BattleScene',{
   map_load_phase () {
     if (this.mapSprite.mapReady()) {
       console.log('map loaded.');
-      this.next('setup_position_phase');
+      //this.next('setup_position_phase');
+      this.next('start_turn');
     }
   },
 

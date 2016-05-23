@@ -5,9 +5,11 @@ import './BattlePositionScene.js';
 import './BattleDirectionScene.js';
 import './BattleRotatePointerScene.js';
 
-import './MapSprite.js';
 import './Graph.js';
+
+import './MapSprite.js';
 import './CharacterSprite.js';
+import './CursorSprite.js';
 
 import {
   SCREEN_WIDTH,
