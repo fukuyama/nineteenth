@@ -57,6 +57,29 @@ phina.define('nz.MapSprite', {
     };
   },
 
+  cursorUp() {
+    {mapx,mapy} = @cursor
+    this.cursor.setPosition( @getMapChip(mapx,mapy - 1) );
+  },
+  cursorDown() {
+    {mapx,mapy} = @cursor
+    @setCursorPosition @getMapChip(mapx,mapy + 1)
+  },
+  cursorLeft() {
+    {mapx,mapy} = @cursor
+    chip = @getMapChip(mapx - 1,mapy)
+    unless chip?
+      chip = @getMapChip(mapx - 1,mapy - 1)
+    @setCursorPosition chip
+  },
+  cursorRight() {
+    {mapx,mapy} = @cursor
+    chip = @getMapChip(mapx + 1,mapy)
+    unless chip?
+      chip = @getMapChip(mapx + 1,mapy - 1)
+    @setCursorPosition chip
+  },
+
   currentMapXY() {
     return this.calcMapXY(this.x,this.y);
   },

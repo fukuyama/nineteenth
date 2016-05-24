@@ -19,11 +19,24 @@ phina.define('nz.CursorShape', {
       fill            : undefined,
       visible         : true
     });
+    this.mapx = 0
+    this.mapy = 0
     this.superInit(options);
   },
 
   postrender(canvas) {
     canvas.strokeRect(-this.width/2, -this.height/2, this.width, this.height);
-  }
+  },
 
+  setPosition(param) {
+    if (param) {
+      if (param.mapx?) {
+        this.mapx = param.mapx;
+      }
+      if (param.mapy?) {
+        this.mapy = param.mapy;
+      }
+      this.moveTo(param.x,param.y);
+    }
+  }
 });
