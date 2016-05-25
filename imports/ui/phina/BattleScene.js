@@ -36,9 +36,10 @@ phina.define('nz.BattleScene',{
 
     this.on('map.pointmove', this.mapSprite.moveListener());
 
-    this.setupKeyboradHander();
-    this.on('input_up', (e) => {
-      console.log('input_up',e);
+    this.setupKeyboradHandler();
+    this.dispatchKeyboradEvent({
+      keys   : ['up','down','left','right'],
+      target : this.mapSprite.cursor
     });
 
     this.next('start_phase');

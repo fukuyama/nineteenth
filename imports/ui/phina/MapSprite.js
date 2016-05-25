@@ -38,6 +38,8 @@ phina.define('nz.MapSprite', {
     this._firstRun = true;
     this._handlers = [];
 
+    this.cursor = nz.CursorShape({mapSprite : this});
+
     this.on('canvas.mouseout', (e) => {
       e.app.mouse._end();
     });
@@ -55,29 +57,6 @@ phina.define('nz.MapSprite', {
         );
       }
     };
-  },
-
-  cursorUp() {
-    {mapx,mapy} = @cursor
-    this.cursor.setPosition( @getMapChip(mapx,mapy - 1) );
-  },
-  cursorDown() {
-    {mapx,mapy} = @cursor
-    @setCursorPosition @getMapChip(mapx,mapy + 1)
-  },
-  cursorLeft() {
-    {mapx,mapy} = @cursor
-    chip = @getMapChip(mapx - 1,mapy)
-    unless chip?
-      chip = @getMapChip(mapx - 1,mapy - 1)
-    @setCursorPosition chip
-  },
-  cursorRight() {
-    {mapx,mapy} = @cursor
-    chip = @getMapChip(mapx + 1,mapy)
-    unless chip?
-      chip = @getMapChip(mapx + 1,mapy - 1)
-    @setCursorPosition chip
   },
 
   currentMapXY() {
@@ -208,9 +187,6 @@ phina.define('nz.MapSprite', {
     this._mapReady = true;
     if (this.parent) {
       this.parent.flare('map.refreshed');
-    }
-    if (!this.cursor) {
-      this.cursor = nz.CursorShape();
     }
     this.cursor.addChildTo(this);
   },

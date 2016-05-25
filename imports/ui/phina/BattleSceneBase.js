@@ -51,14 +51,14 @@ phina.define('nz.BattleSceneBase',{
     };
   },
 
-  setupKeyboradHander() {
-    this.on('enterframe', this._createKeyboradHander());
+  setupKeyboradHandler() {
+    this.on('enterframe', this._createKeyboradHandler());
   },
 
-  _createKeyboradHander() {
+  _createKeyboradHandler() {
     const eventKeys      = ['up','down','left','right','enter','escape'];
     const repeatDelay    = 10;
-    const repeatIntarval = 0;
+    const repeatIntarval = 1;
 
     let repeatCount = 0;
 
@@ -81,6 +81,16 @@ phina.define('nz.BattleSceneBase',{
         }
       });
     };
+  },
+
+  dispatchKeyboradEvent(param) {
+    const keys    = param.keys;
+    const target  = param.target;
+    const handler = (e) => {target.fire(e)};
+    keys.forEach((key) => {
+      this.on('input_'  + key, handler);
+      this.on('repeat_' + key, handler);
+    });
   }
 
 });
