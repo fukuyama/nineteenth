@@ -34,13 +34,13 @@ phina.define('nz.BattleScene',{
       this.gridY.center()
     );
 
+    this.on('map.pointstart', (e) => {
+      console.log('map.pointstart',e.mapx,e.mapy);
+    });
     this.on('map.pointmove', this.mapSprite.moveListener());
 
     this.setupKeyboradHandler();
-    this.dispatchKeyboradEvent({
-      keys   : ['up','down','left','right'],
-      target : this.mapSprite.cursor
-    });
+    this.setupCursorHandler();
 
     this.next('start_phase');
   },

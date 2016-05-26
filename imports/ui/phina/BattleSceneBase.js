@@ -55,6 +55,13 @@ phina.define('nz.BattleSceneBase',{
     this.on('enterframe', this._createKeyboradHandler());
   },
 
+  setupCursorHandler() {
+    this.dispatchKeyboradEvent({
+      keys   : ['up','down','left','right'],
+      target : this.mapSprite.cursor
+    });
+  },
+
   _createKeyboradHandler() {
     const eventKeys      = ['up','down','left','right','enter','escape'];
     const repeatDelay    = 10;

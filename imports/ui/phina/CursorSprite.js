@@ -1,6 +1,8 @@
 
 import {
   MAP_CHIP_SIZE,
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT
 } from '/imports/ui/lib/constants.js';
 
 phina.define('nz.CursorShape', {
@@ -19,15 +21,27 @@ phina.define('nz.CursorShape', {
       fill            : undefined,
       visible         : true
     });
-    this.mapx = 0
-    this.mapy = 0
     this.mapSprite = options.mapSprite;
+    this.mapx = this.mapSprite.mapx;
+    this.mapy = this.mapSprite.mapy;
     this.superInit(options);
 
-    const up    = (e) => {this.setPosition(this.mapx,this.mapy - 1)};
-    const down  = (e) => {this.setPosition(this.mapx,this.mapy + 1)};
-    const left  = (e) => {this.setPosition(this.mapx - 1,this.mapy)};
-    const right = (e) => {this.setPosition(this.mapx + 1,this.mapy)};
+    const up    = (e) => {
+      this.setPosition(this.mapx,this.mapy - 1);
+      this.checkDisplayRange();
+    };
+    const down  = (e) => {
+      this.setPosition(this.mapx,this.mapy + 1);
+      this.checkDisplayRange();
+    };
+    const left  = (e) => {
+      this.setPosition(this.mapx - 1,this.mapy);
+      this.checkDisplayRange();
+    };
+    const right = (e) => {
+      this.setPosition(this.mapx + 1,this.mapy);
+      this.checkDisplayRange();
+    };
     this.on('input_up',     up    );
     this.on('input_down',   down  );
     this.on('input_left',   left  );
@@ -47,6 +61,19 @@ phina.define('nz.CursorShape', {
     this.moveTo(pos.x,pos.y);
     this.mapx = mapx;
     this.mapy = mapy;
+  },
+
+  checkDisplayRange() {
+    const m = this.mapSprite;
+    const w = SCREEN_WIDTH  / 2 - MAP_CHIP_SIZE;
+    const h = SCREEN_HEIGHT / 2 - MAP_CHIP_SIZE;
+    const x = m.x + this.x;
+    const y = m.y + this.y;
+    if (x <= MAP_CHIP_SIZE) {
+      m.moveTo(m.x + MAP_CHIP_SIZE,m.y);
+    } else if (SCREEN_WIDTH - MAP_CHIP_SIZE <= x) {
+      m.moveTo(m.x - MAP_CHIP_SIZE,m.y);
+    }
   }
 
 });

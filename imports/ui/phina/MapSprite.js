@@ -17,7 +17,7 @@ phina.define('nz.MapSprite', {
   // 初期化
   init({mapId,mapx,mapy}) {
     this.mapId = mapId;
-    this.mapx  = mapy;
+    this.mapx  = mapx;
     this.mapy  = mapy;
     this.superInit();
     this.mapw = (SCREEN_WIDTH  / 2 / MAP_CHIP_SIZE).ceil() + 1;
@@ -64,8 +64,8 @@ phina.define('nz.MapSprite', {
   },
   calcMapXY(x,y) {
     const addr = nz.Graph.pos2mapXY(x,y);
-    addr.mapx += this.mapx;
-    addr.mapy += this.mapy;
+    addr.mapx -= this.mapx;
+    addr.mapy -= this.mapy;
     return addr;
   },
 
@@ -209,8 +209,8 @@ phina.define('nz.MapSprite', {
     }
     const sz  = MAP_CHIP_SIZE;
     const pos = nz.Graph.mapXY2pos(
-      mapx + this.mapx,
-      mapy + this.mapy
+      mapx - this.mapx,
+      mapy - this.mapy
     );
     const chip = phina.display.Sprite('map_chip',sz,sz)
       .addChildTo(this)
