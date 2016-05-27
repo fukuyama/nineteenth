@@ -65,14 +65,19 @@ phina.define('nz.CursorShape', {
 
   checkDisplayRange() {
     const m = this.mapSprite;
-    const w = SCREEN_WIDTH  / 2 - MAP_CHIP_SIZE;
-    const h = SCREEN_HEIGHT / 2 - MAP_CHIP_SIZE;
     const x = m.x + this.x;
     const y = m.y + this.y;
     if (x <= MAP_CHIP_SIZE) {
       m.moveTo(m.x + MAP_CHIP_SIZE,m.y);
-    } else if (SCREEN_WIDTH - MAP_CHIP_SIZE <= x) {
+    }
+    if (SCREEN_WIDTH - MAP_CHIP_SIZE <= x) {
       m.moveTo(m.x - MAP_CHIP_SIZE,m.y);
+    }
+    if (y <= MAP_CHIP_SIZE) {
+      m.moveTo(m.x,m.y + MAP_CHIP_SIZE);
+    }
+    if (SCREEN_HEIGHT - MAP_CHIP_SIZE <= y) {
+      m.moveTo(m.x,m.y - MAP_CHIP_SIZE);
     }
   }
 

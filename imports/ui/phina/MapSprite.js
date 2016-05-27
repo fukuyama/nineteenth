@@ -46,6 +46,12 @@ phina.define('nz.MapSprite', {
     this.on('destroyed', () => {
       this.unsubscribeMapCell(true);
     });
+
+    // dummy
+    phina.display.CircleShape({
+      fill   : 'black',
+      radius : 4
+    }).addChildTo(this);
   },
 
   moveListener() {
