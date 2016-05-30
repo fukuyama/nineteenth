@@ -62,7 +62,6 @@ phina.define('nz.CursorShape', {
       mapx - map.mapx,
       mapy - map.mapy
     );
-    //const pos = this.mapSprite.getMapPosition(mapx,mapy);
     this.moveTo(pos.x,pos.y);
     this.mapx = mapx;
     this.mapy = mapy;
