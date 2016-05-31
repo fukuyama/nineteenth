@@ -25,6 +25,13 @@ phina.define('nz.BattlePositionScene', {
 
     this.on('map.pointmove', mapSprite.moveListener());
 
+    this.setupKeyboradHandler();
+    this.setupCursorHandler();
+
+    this.on('map.pointend', (e) => {
+      console.log('map.pointend',e.mapx,e.mapy);
+    });
+
     // this.on('map.pointend', (e) => {
     //   if (this.mapSprite.existBlink(e.mapx,e.mapy)) {
     //     const character = this.characters[this.characterIndex];

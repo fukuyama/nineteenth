@@ -52,8 +52,8 @@ phina.define('nz.BattleScene',{
   map_load_phase () {
     if (this.mapSprite.mapReady()) {
       console.log('map loaded.');
-      //this.next('setup_position_phase');
-      this.next('start_turn');
+      this.next('setup_position_phase');
+      //this.next('start_turn');
     }
   },
 
