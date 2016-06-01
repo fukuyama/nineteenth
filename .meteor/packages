@@ -42,5 +42,6 @@ underscore
 # testing
 dburles:factory
 xolvio:cleaner
-dispatch:mocha-phantomjs
 practicalmeteor:mocha
+practicalmeteor:munit
+dispatch:mocha-phantomjs
