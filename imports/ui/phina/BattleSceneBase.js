@@ -74,14 +74,14 @@ phina.define('nz.BattleSceneBase',{
       eventKeys.forEach((key) => {
         if (kb.getKeyDown(key)) {
           repeatCount = 0;
-          this.flare('input_' + key);
+          this.flare('input.' + key);
         }
       });
 
       eventKeys.forEach((key) => {
         if (kb.getKey(key)) {
           if (repeatDelay < repeatCount) {
-            this.flare('repeat_' + key);
+            this.flare('repeat.' + key);
             repeatCount -= repeatIntarval;
           }
           repeatCount += 1;
@@ -95,8 +95,8 @@ phina.define('nz.BattleSceneBase',{
     const target  = param.target;
     const handler = (e) => {target.fire(e)};
     keys.forEach((key) => {
-      this.on('input_'  + key, handler);
-      this.on('repeat_' + key, handler);
+      this.on('input.'  + key, handler);
+      this.on('repeat.' + key, handler);
     });
   }
 

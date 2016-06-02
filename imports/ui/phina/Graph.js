@@ -29,9 +29,9 @@ nz.Graph = class Graph {
           hy += 1;
         }
       } else {
-        //if (c1.mapy >= c2.mapy) {
-          hy -= 1;
-        //}
+        if (c1.mapy <= c2.mapy) {
+          hy += 1;
+        }
       }
     }
     return hx + hy - hr;

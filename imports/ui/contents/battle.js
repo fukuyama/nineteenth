@@ -39,7 +39,7 @@ Template.battle.onRendered( function () {
       app = BattleApp({
         mapId      : battle.mapId,
         mapx       : 5,
-        mapy       : 0,
+        mapy       : 1,
         groups     : groups,
         characters : characters
       });

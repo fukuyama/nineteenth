@@ -42,14 +42,14 @@ phina.define('nz.CursorShape', {
       this.setPosition(this.mapx + 1,this.mapy);
       this.checkDisplayRange();
     };
-    this.on('input_up',     up    );
-    this.on('input_down',   down  );
-    this.on('input_left',   left  );
-    this.on('input_right',  right );
-    this.on('repeat_up',    up    );
-    this.on('repeat_down',  down  );
-    this.on('repeat_left',  left  );
-    this.on('repeat_right', right );
+    this.on('input.up',     up    );
+    this.on('input.down',   down  );
+    this.on('input.left',   left  );
+    this.on('input.right',  right );
+    this.on('repeat.up',    up    );
+    this.on('repeat.down',  down  );
+    this.on('repeat.left',  left  );
+    this.on('repeat.right', right );
   },
 
   postrender(canvas) {

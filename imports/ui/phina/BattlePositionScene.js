@@ -31,6 +31,10 @@ phina.define('nz.BattlePositionScene', {
     this.on('map.pointend', (e) => {
       console.log('map.pointend',e.mapx,e.mapy);
     });
+    this.on('input.enter', (e) => {
+      const cursor = mapSprite.cursor;
+      console.log('input.enter',cursor.mapx,cursor.mapy);
+    });
 
     // this.on('map.pointend', (e) => {
     //   if (this.mapSprite.existBlink(e.mapx,e.mapy)) {

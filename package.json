@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "19",
   "scripts": {
-    "test": "meteor test --driver-package=practicalmeteor:mocha",
+    "test": "meteor test --once --driver-package dispatch:mocha-phantomjs",
     "start": "meteor"
   },
   "repository": {
