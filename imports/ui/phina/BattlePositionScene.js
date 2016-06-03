@@ -32,21 +32,25 @@ phina.define('nz.BattlePositionScene', {
       console.log('map.pointend',e.mapx,e.mapy);
     });
     this.on('input.enter', (e) => {
-      const cursor = mapSprite.cursor;
-      console.log('input.enter',cursor.mapx,cursor.mapy);
     });
 
-    // this.on('map.pointend', (e) => {
-    //   if (this.mapSprite.existBlink(e.mapx,e.mapy)) {
-    //     const character = this.characters[this.characterIndex];
-    //     character.addChildTo(mapSprite).setMapPosition(e.mapx,e.mapy);
-    //     const scene = new nz.BattleDirectionScene({
-    //       character : character,
-    //       mapSprite : mapSprite
-    //     });
-    //     this.scene_phase(scene);
-    //   }
-    // });
+    this.on('map.pointend', (e) => {
+    });
+  },
+
+  selectPosition() {
+    const cursor = mapSprite.cursor;
+    console.log('input.enter',cursor.mapx,cursor.mapy);
+    if (!this.mapSprite.existBlink(e.mapx,e.mapy)) {
+      return;
+    }
+    const character = this.characters[this.characterIndex];
+    character.addChildTo(mapSprite).setMapPosition(e.mapx,e.mapy);
+    const scene = new nz.BattleDirectionScene({
+      character : character,
+      mapSprite : mapSprite
+    });
+    this.scene_phase(scene);
   },
 
   setupPlacementArea(pos) {

@@ -281,6 +281,7 @@ phina.define('nz.MapSprite', {
   },
 
   _chipPointOver(e) {
+    this.cursor.setPosition(e.target.mapx,e.target.mapy);
     this._dispatchEvent(e);
   },
 
