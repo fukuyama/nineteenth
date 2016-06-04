@@ -28,13 +28,12 @@ phina.define('nz.BattlePositionScene', {
     this.setupKeyboradHandler();
     this.setupCursorHandler();
 
-    this.on('map.pointend', (e) => {
-      console.log('map.pointend',e.mapx,e.mapy);
-    });
     this.on('input.enter', (e) => {
+      this.selectPosition();
     });
 
     this.on('map.pointend', (e) => {
+      this.selectPosition();
     });
   },
 
