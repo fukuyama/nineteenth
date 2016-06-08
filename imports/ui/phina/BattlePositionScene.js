@@ -29,22 +29,25 @@ phina.define('nz.BattlePositionScene', {
     this.setupCursorHandler();
 
     this.on('input.enter', (e) => {
-      this.selectPosition();
+      this.selectPosition(e);
     });
 
     this.on('map.pointend', (e) => {
-      this.selectPosition();
+      this.selectPosition(e);
     });
   },
 
-  selectPosition() {
+  selectPosition(e) {
+    const mapSprite = this.mapSprite;
     const cursor = mapSprite.cursor;
-    console.log('input.enter',cursor.mapx,cursor.mapy);
-    if (!this.mapSprite.existBlink(e.mapx,e.mapy)) {
+    const mapx = cursor.mapx;
+    const mapy = cursor.mapy;
+    console.log('input.enter',mapx,mapy);
+    if (!mapSprite.existBlink(mapx,mapy)) {
       return;
     }
     const character = this.characters[this.characterIndex];
-    character.addChildTo(mapSprite).setMapPosition(e.mapx,e.mapy);
+    character.addChildTo(mapSprite).setMapPosition(mapx,mapy);
     const scene = new nz.BattleDirectionScene({
       character : character,
       mapSprite : mapSprite
