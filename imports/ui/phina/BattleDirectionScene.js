@@ -20,13 +20,25 @@ phina.define('nz.BattleDirectionScene', {
   },
 
   _movePointer(pointer) {
-    console.log('_movePointer',pointer.position);
+    if (!this.pointer) {
+      return;
+    }
+    const pos = this.character.globalToLocal(pointer.position);
+    const t = this.pointer.position;
+    const v = phina.geom.Vector2(pos.x - t.x,pos.y - t.y);
+    this.pointer.rotation = Math.radToDeg(v.toAngle());
   }
   /*
   _rotatePointer(rotation) {
     return unless @pointer?
     rotation = nz.utils.normalizRotation rotation
-    for d,i in DIRECTIONS when 0 <= i and i < 6
+    for d,i in DIRECTIONS when 0 <= i and i < 6    return unless @pointer?
+        t = @target.body.localToGlobal tm.geom.Vector2(0,0)
+        x = pointing.x - t.x
+        y = pointing.y - t.y
+        v = tm.geom.Vector2 x,y
+        @_rotatePointer Math.radToDeg v.toAngle()
+
       if d.rotation - 30 <= rotation and rotation <= d.rotation + 30
         costd = nz.Graph.directionCost(@target.direction, d.index)
         if costd <= @_remnant

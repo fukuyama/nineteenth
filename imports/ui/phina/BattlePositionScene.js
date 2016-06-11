@@ -48,7 +48,7 @@ phina.define('nz.BattlePositionScene', {
     }
     const character = this.characters[this.characterIndex];
     character.addChildTo(mapSprite).setMapPosition(mapx,mapy);
-    const scene = new nz.BattleDirectionScene({
+    const scene = nz.BattleDirectionScene({
       character : character,
       mapSprite : mapSprite
     });

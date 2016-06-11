@@ -36,7 +36,7 @@ ddp-server@1.2.6
 deps@1.0.12
 diff-sequence@1.0.5
 dispatch:mocha-core@0.0.2
-dispatch:mocha-phantomjs@0.1.2
+dispatch:mocha-phantomjs@0.1.5
 dispatch:phantomjs-tests@0.0.5
 ecmascript@0.4.3
 ecmascript-runtime@0.2.10
@@ -78,7 +78,7 @@ mongo@1.1.7
 mongo-id@1.0.4
 mquandalle:jade@0.4.9
 mquandalle:jade-compiler@0.4.5
-npm-bcrypt@0.8.5
+npm-bcrypt@0.8.6_1
 npm-mongo@1.4.43
 oauth@1.1.10
 oauth1@1.1.9
