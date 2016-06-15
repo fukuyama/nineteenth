@@ -19,7 +19,6 @@ phina.define('nz.BattleDirectionScene', {
   },
 
   _setupCommand() {
-    //console.log('setupCommand');
     this.character.setDirection(this._direction);
   },
 

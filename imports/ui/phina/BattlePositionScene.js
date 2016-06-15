@@ -58,6 +58,14 @@ phina.define('nz.BattlePositionScene', {
     });
     this.scene_phase(scene);
     this.characterIndex += 1;
+    scene.on('exit',() => {
+      if (!this.characters[this.characterIndex]) {
+        console.log('exit no character');
+        this.mapSprite.clearBlink();
+        this.exit();
+        return;
+      }
+    });
   },
 
   setupPlacementArea(pos) {

@@ -271,6 +271,16 @@ phina.define('nz.MapSprite', {
     this._blinks[mapx][mapy] = blink;
   },
 
+  clearBlink() {
+    this._blinks.forIn( (mapx,o) => {
+      o.forIn( (mapy,blink) => {
+        blink.tweener.clear();
+        blink.remove();
+      });
+    });
+    this._blinks = {};
+  },
+
   isDrag() {
     return this._dragFlag;
   },
