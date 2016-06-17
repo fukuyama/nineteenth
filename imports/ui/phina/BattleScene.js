@@ -33,23 +33,10 @@ phina.define('nz.BattleScene',{
       this.gridX.center(),
       this.gridY.center()
     );
-    let c1 = undefined;
-    let c2 = undefined;
     this.on('map.pointstart', (e) => {
-      if (!c1) {
-        c1 = {
-          mapx : e.mapx,
-          mapy : e.mapy
-        };
-      } else {
-        c2 = {
-          mapx : e.mapx,
-          mapy : e.mapy
-        };
-        const res = nz.Graph.distance(c1,c2);
-        console.log('distance',c1,c2,res);
-        c1 = undefined;
-      }
+      const mapx = e.mapx;
+      const mapy = e.mapy;
+      const character = this.mapSprite.findCharacter(mapx,mapy);
     });
     this.on('map.pointmove', this.mapSprite.moveListener());
 

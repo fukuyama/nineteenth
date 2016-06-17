@@ -209,6 +209,10 @@ phina.define('nz.MapSprite', {
     return (this._blinks[mapx] && this._blinks[mapx][mapy]) ? true : false;
   },
 
+  findCharacter(mapx,mapy) {
+
+  },
+
   createMapChip({index,mapx,mapy}) {
     if (this.existChip(mapx,mapy)) {
       return this._chips[mapx][mapy];
