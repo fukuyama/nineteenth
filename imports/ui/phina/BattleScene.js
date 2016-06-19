@@ -24,9 +24,10 @@ phina.define('nz.BattleScene',{
     });
 
     this.mapSprite = nz.MapSprite({
-      mapId : param.mapId,
-      mapx  : param.mapx,
-      mapy  : param.mapy
+      mapId      : param.mapId,
+      mapx       : param.mapx,
+      mapy       : param.mapy,
+      characters : this.characters
     })
     .addChildTo(this)
     .moveTo(

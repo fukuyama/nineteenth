@@ -15,13 +15,14 @@ phina.define('nz.MapSprite', {
   superClass: 'phina.display.DisplayElement',
 
   // 初期化
-  init({mapId,mapx,mapy}) {
+  init({mapId,mapx,mapy,characters}) {
     this.mapId = mapId;
     this.mapx  = mapx;
     this.mapy  = mapy;
     this.superInit();
     this.mapw = (SCREEN_WIDTH  / 2 / MAP_CHIP_SIZE).ceil() + 1;
     this.maph = (SCREEN_HEIGHT / 2 / MAP_CHIP_SIZE).ceil() + 1;
+    this.characters = characters;
 
     this.setInteractive(true);
 
@@ -52,6 +53,10 @@ phina.define('nz.MapSprite', {
       fill   : 'black',
       radius : 4
     }).addChildTo(this);
+  },
+
+  findCharacter(mapx,mapy) {
+
   },
 
   moveListener() {
@@ -207,10 +212,6 @@ phina.define('nz.MapSprite', {
 
   existBlink(mapx,mapy) {
     return (this._blinks[mapx] && this._blinks[mapx][mapy]) ? true : false;
-  },
-
-  findCharacter(mapx,mapy) {
-
   },
 
   createMapChip({index,mapx,mapy}) {
