@@ -38,6 +38,7 @@ phina.define('nz.BattleScene',{
       const mapx = e.mapx;
       const mapy = e.mapy;
       const character = this.mapSprite.findCharacter(mapx,mapy);
+      console.log(character);
     });
     this.on('map.pointmove', this.mapSprite.moveListener());
 

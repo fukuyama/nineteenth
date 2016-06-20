@@ -47,6 +47,8 @@ phina.define('nz.CharacterSprite', {
   },
 
   setMapPosition(mapx,mapy) {
+    this.mapx = mapx;
+    this.mapy = mapy;
     const pos = this.parent.getMapPosition(mapx,mapy);
     this.moveTo(pos.x, pos.y);
   },

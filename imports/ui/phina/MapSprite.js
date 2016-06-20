@@ -56,7 +56,9 @@ phina.define('nz.MapSprite', {
   },
 
   findCharacter(mapx,mapy) {
-
+    return this.characters.find( (character) => {
+      return (mapx == character.mapx && mapy == character.mapy);
+    });
   },
 
   moveListener() {
