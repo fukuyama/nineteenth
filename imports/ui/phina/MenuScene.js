@@ -110,32 +110,42 @@ phina.define('nz.MenuScene',{
     //  @cursor.x = @btns[@index].x
     //  @cursor.y = @btns[@index].y
     //});
+  },
+
+  _selectMenu(e) => {
+    const menu = this.menus[e.target.index];
+    if (!menu) {
+      this.app.popScene();
+      menu.fn();
+    }
+  },
+
+  _measureText(text,options) => {
+    const context = phina.graphics.Canvas.dummyCanvas.getContext('2d');
+    context.font = "{fontWeight} {fontSize}px {fontFamily}".format(options);
+    context.measureText(text + '').width;
+  },
+
+  _calcRows() => {
+    if (!this.rows) {
+      this.rows = (this.menus.length / this.cols).ceil();
+    }
+    return this.rows;
+  },
+
+  _calcItemWidth() => {
+    let width = 0;
+    this.menus.forEach((m,i) => {
+      let w = this._measureText(m.text,this);
+      if (width < w) {
+        width = w;
+      }
+    });
+    width + 4;
+  },
+
+  _calcItemHeight() => {
+    this.fontSize;
   }
-
-  _selectMenu: (e) ->
-    menu = @menus[e.target.index]
-    if menu?
-      @app.popScene()
-      menu.fn()
-    return
-
-  _measureText: (text,options) ->
-    canvas = phina.graphics.Canvas.dummyCanvas
-    context = canvas.getContext('2d')
-    context.font = "{fontWeight} {fontSize}px {fontFamily}".format(options)
-    context.measureText(text + '').width
-
-  _calcRows: ->
-    @rows ? (@menus.length / @cols).ceil()
-
-  _calcItemWidth: ->
-    width = 0
-    for m,i in @menus
-      w = @_measureText(m.text,@)
-      width = w if width < w
-    width + 4
-
-  _calcItemHeight: ->
-    @fontSize
 
 });
