@@ -4,6 +4,7 @@
  */
 
 import { CharacterTypes } from '/imports/api/character-types/character-types.js';
+import { setupKeyboradHandler } from './KeyboradHandler.js';
 
 phina.define('nz.BattleScene',{
   superClass: 'nz.BattleSceneBase',
@@ -42,7 +43,7 @@ phina.define('nz.BattleScene',{
     });
     this.on('map.pointmove', this.mapSprite.moveListener());
 
-    this.setupKeyboradHandler();
+    setupKeyboradHandler(this);
     this.setupCursorHandler();
 
     this.next('start_phase');

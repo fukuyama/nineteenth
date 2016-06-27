@@ -298,7 +298,9 @@ phina.define('nz.MapSprite', {
   },
 
   _chipPointOver(e) {
-    this.cursor.setPosition(e.target.mapx,e.target.mapy);
+    if (!this.cursor.inputKeyborad) {
+      this.cursor.setPosition(e.target.mapx,e.target.mapy);
+    }
     this._dispatchEvent(e);
   },
 
@@ -314,6 +316,7 @@ phina.define('nz.MapSprite', {
   },
 
   _chipPointEnd(e) {
+    this.cursor.inputKeyborad = false;
     this._pointFlag = false;
     this._dragFlag  = false;
     this._dispatchEvent(e);

@@ -3,6 +3,8 @@
  * 戦闘開始シーン
  */
 
+import { setupKeyboradHandler } from './KeyboradHandler.js';
+
 phina.define('nz.BattlePositionScene', {
   superClass: 'nz.BattleSceneBase',
 
@@ -25,7 +27,7 @@ phina.define('nz.BattlePositionScene', {
 
     this.on('map.pointmove', mapSprite.moveListener());
 
-    this.setupKeyboradHandler();
+    setupKeyboradHandler(this);
     this.setupCursorHandler();
 
     this.on('input.enter', (e) => {

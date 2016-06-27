@@ -27,18 +27,22 @@ phina.define('nz.CursorShape', {
     this.superInit(options);
 
     const up    = (e) => {
+      this.inputKeyborad = true;
       this.setPosition(this.mapx,this.mapy - 1);
       this.checkDisplayRange();
     };
     const down  = (e) => {
+      this.inputKeyborad = true;
       this.setPosition(this.mapx,this.mapy + 1);
       this.checkDisplayRange();
     };
     const left  = (e) => {
+      this.inputKeyborad = true;
       this.setPosition(this.mapx - 1,this.mapy);
       this.checkDisplayRange();
     };
     const right = (e) => {
+      this.inputKeyborad = true;
       this.setPosition(this.mapx + 1,this.mapy);
       this.checkDisplayRange();
     };
