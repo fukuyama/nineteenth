@@ -47,6 +47,21 @@ phina.define('nz.MapSprite', {
     this.on('destroyed', () => {
       this.unsubscribeMapCell(true);
     });
+    let prev_pos = phina.geom.Vector2();
+    this.on('enterframe', (e) => {
+      if (this.cursor.inputKeyborad) {
+        e.app.pointers.forEach((p) => {
+          if (p.id !== null) {
+            if (!prev_pos.equals(p.position)) {
+              // ポインターを動かしたぽいので、キーボードOFF
+              this.cursor.inputKeyborad = false;
+            }
+            prev_pos.x = p.position.x;
+            prev_pos.y = p.position.y;
+          }
+        });
+      }
+    });
 
     // dummy
     phina.display.CircleShape({
@@ -316,7 +331,6 @@ phina.define('nz.MapSprite', {
   },
 
   _chipPointEnd(e) {
-    this.cursor.inputKeyborad = false;
     this._pointFlag = false;
     this._dragFlag  = false;
     this._dispatchEvent(e);
