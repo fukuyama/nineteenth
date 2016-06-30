@@ -55,6 +55,7 @@ phina.define('nz.BattleApp', {
       }
       this.ticker.stop();
       console.log('ticker.stop()');
+      nz.BattleApp.app = undefined;
     });
   },
 
@@ -104,6 +105,7 @@ phina.define('nz.BattleApp', {
     if (isEver) {
       phina.global.addEventListener('resize', _fitFunc, false);
     }
+    nz.BattleApp.app = this;
   }
 });
 

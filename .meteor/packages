@@ -40,8 +40,8 @@ ddp-rate-limiter
 underscore
 
 # testing
-dburles:factory
 xolvio:cleaner
 practicalmeteor:mocha
 practicalmeteor:munit
 dispatch:mocha-phantomjs
+dburles:factory

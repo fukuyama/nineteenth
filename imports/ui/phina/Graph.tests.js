@@ -3,7 +3,7 @@
 import { Meteor } from 'meteor/meteor';
 import { assert } from 'meteor/practicalmeteor:chai';
 
-import './Graph.js';
+import { Graph } './Graph.js';
 
 if (Meteor.isServer) {
   describe('Graph', () => {
@@ -17,7 +17,7 @@ if (Meteor.isServer) {
           mapx : 0,
           mapy : 1
         };
-        const res = anz.Graph.distance(c1,c2);
+        const res = Graph.distance(c1,c2);
         assert.equal(res,1);
       });
     });
