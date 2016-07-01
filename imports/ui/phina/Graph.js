@@ -7,7 +7,7 @@ import {
   SCREEN_HEIGHT
 } from '/imports/ui/lib/constants.js';
 
-export const class Graph {
+export const Graph = class Graph {
   constructor(param = {}) {
     return
   }
