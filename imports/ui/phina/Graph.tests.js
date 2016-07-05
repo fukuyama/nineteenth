@@ -8,9 +8,9 @@ import { Graph } from './Graph.js';
 console.log('test');
 if (Meteor.isServer) {
   console.log('server test');
-  describe('Graph', () => {
-    describe('static method', () => {
-      it('graph.distance (0,0) (0,1)', () => {
+  describe('Graph', function() {
+    describe('static method', function() {
+      it('graph.distance (0,0) (0,1)', function() {
         console.log('server test run');
         const c1 = {
           mapx : 0,

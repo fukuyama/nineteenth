@@ -5,8 +5,6 @@ import './BattlePositionScene.js';
 import './BattleDirectionScene.js';
 import './BattleRotatePointerScene.js';
 
-import './Graph.js';
-
 import './MapSprite.js';
 import './CharacterSprite.js';
 import './CursorSprite.js';
@@ -15,6 +13,11 @@ import {
   SCREEN_WIDTH,
   SCREEN_HEIGHT
 } from '/imports/ui/lib/constants.js';
+
+import {
+  Graph
+} from './Graph.js';
+nz.Graph = Graph;
 
 phina.define('nz.BattleApp', {
   superClass : 'phina.game.GameApp',
