@@ -1,13 +1,16 @@
 template(name='battles')
   div.container.battles-view
-    form.add_battle
-      label Name
-        input.form.control(name='name')
-      select(name='mapId')
-        each mapdata
-          option(value="#{_id}")= name
+    form.add_battle.form-inline(role='form',style='margin-bottom: 10px')
+      div.form-group
+        label(for='name') Name
+        input#name.form-control(name='name')
+      div.form-group
+        label(for='map') Map
+        select#map.form-control(name='mapId')
+          each mapdata
+            option(value="#{_id}")= name
       button.btn.btn-default.ok(type='submit') OK
-    dev.list-group.row
+    div.list-group.row
       each battles
         +battle_list_item
 
@@ -15,16 +18,16 @@ template(name='battle_list_item')
   div.list-group-item.row
     a.col-xs-3(href="/battles/#{_id}")
       = name
-    dev.col-xs-3
+    div.col-xs-3
       = mapdata.name
-    dev.col-xs-5.btn-group.btn-group-xs
+    div.col-xs-5.btn-group.btn-group-xs
       each groups
         button.btn.btn-default.delete_group= name
       select.select_group(name='groupId')
         option(value="-") -
         each ownerGroups
           option(value="#{_id}")= name
-    dev.col-xs-1
+    div.col-xs-1
       a.js-delete-item.delete_battle(href='#')
         span.glyphicon.glyphicon-remove(aria-hidden='true')
       = usersId

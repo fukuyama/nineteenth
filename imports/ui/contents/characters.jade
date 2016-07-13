@@ -1,13 +1,14 @@
 template(name='characters')
   div.container.characters-view
-    a.btn.btn-default(href='/add_character') Add Character
-    dev.list-group.row
+    div.row
+      a.btn.btn-default(href='/add_character') Add Character
+    div.list-group.row
       each characters
         a.list-group-item.col-xs-12(href="/characters/#{_id}")
           +character_list_item
 
 template(name='character_list_item')
-  dev.col-xs-4
+  div.col-xs-4
     = name
-  dev.col-xs-8
+  div.col-xs-8
     = group.name
