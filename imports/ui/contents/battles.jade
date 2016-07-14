@@ -21,12 +21,16 @@ template(name='battle_list_item')
     div.col-xs-3
       = mapdata.name
     div.col-xs-5.btn-group.btn-group-xs
-      each groups
-        button.btn.btn-default.delete_group= name
-      select.select_group(name='groupId')
-        option(value="-") -
-        each ownerGroups
-          option(value="#{_id}")= name
+      form.form-inline
+        each groups
+          button.btn.btn-default.btn-xs.delete_group= name
+        div.btn-group
+          button.btn.btn-default.btn-xs.dropdown-toggle(data-toggle='dropdown',aria-haspopup='true',aria-expanded='false') add group
+          ul.dropdown-menu
+            //select.form-control.input-xs.select_group(name='groupId')
+            each ownerGroups
+              li
+                a.add_group(href="#")= name
     div.col-xs-1
       a.js-delete-item.delete_battle(href='#')
         span.glyphicon.glyphicon-remove(aria-hidden='true')

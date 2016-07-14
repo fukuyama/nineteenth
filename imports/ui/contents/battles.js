@@ -1,14 +1,18 @@
-import { Meteor } from 'meteor/meteor';
-import { FlowRouter } from 'meteor/kadira:flow-router';
+import { Meteor }      from 'meteor/meteor';
+import { FlowRouter }  from 'meteor/kadira:flow-router';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
-import { Template } from 'meteor/templating';
-import { _ } from 'meteor/underscore';
+import { Template }    from 'meteor/templating';
+import { _ }           from 'meteor/underscore';
 
-import { AllMapData } from '/imports/api/map-data/map-data.js';
+import { AllMapData }  from '/imports/api/map-data/map-data.js';
 import { JoinBattles } from '/imports/api/battles/battles.js';
 import { OwnerGroups } from '/imports/api/groups/groups.js';
 
-import { addBattle, deleteBattle, addGroupToBattle, deleteGroupToBattle } from '/imports/api/battles/methods.js';
+import {
+  addBattle,
+  deleteBattle,
+  addGroupToBattle,
+  deleteGroupToBattle } from '/imports/api/battles/methods.js';
 import { errorHandler } from '/imports/ui/lib/functions.js';
 
 import './battles.jade';
@@ -52,13 +56,10 @@ Template.battles.events({
 });
 
 Template.battle_list_item.events({
-  'change .select_group' : function (event) {
+  'click .add_group' : function (event) {
     event.preventDefault();
-    const battleId = this._id;
-    const groupId  = event.target.value
-    if (groupId == '-') {
-      return
-    }
+    const battleId = Template.parentData(0)._id;
+    const groupId  = this._id;
     const param = {
       id      : battleId,
       groupId : groupId
