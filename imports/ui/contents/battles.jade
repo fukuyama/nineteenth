@@ -1,6 +1,6 @@
 template(name='battles')
   div.container.battles-view
-    form.add_battle.form-inline(role='form',style='margin-bottom: 10px')
+    form.add_battle.form-inline.row(role='form',style='margin-bottom: 10px')
       div.form-group
         label(for='name') Name
         input#name.form-control(name='name')
@@ -9,7 +9,8 @@ template(name='battles')
         select#map.form-control(name='mapId')
           each mapdata
             option(value="#{_id}")= name
-      button.btn.btn-default.ok(type='submit') OK
+      div.form-group
+        button.btn.btn-default.ok(type='submit') OK
     div.list-group.row
       each battles
         +battle_list_item

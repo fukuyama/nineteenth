@@ -1,13 +1,15 @@
 template(name='add_character')
   div.container.add-character-view
-    form.add_character
-      label Name
-      div.input-group
-        input.form-control(name='name')
-      label Type
-      div.input-group
-        select(name='typeId')
-          each characterTypes
-            option(value="#{_id}")= name
-      div.input-group
-        button.btn.btn-default.ok(type='submit') OK
+    form.add_character.form.row(role='form',style='margin-bottom: 10px')
+      div.row
+        div.form-group.col-xs-3
+          label(for='name') Name
+          input#name.form-control(name='name')
+        div.form-group.col-xs-3
+          label(for='typeId') Type
+          select#typeId.form-control(name='typeId')
+            each characterTypes
+              option(value="#{_id}")= name
+      div.row
+        div.form-group.col-xs-3
+          button.btn.btn-default.ok(type='submit') OK

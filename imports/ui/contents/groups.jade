@@ -1,7 +1,8 @@
 template(name='groups')
   div.container.groups-view
-    a.btn.btn-default(href='/add_group') Add Group
-    ul.list-group
+    form.form-inline.row(role='form',style='margin-bottom: 10px')
+      a.btn.btn-default(href='/add_group') Add Group
+    ul.list-group.row
       each groups
         a.list-group-item(href="/groups/#{_id}")
           = name
