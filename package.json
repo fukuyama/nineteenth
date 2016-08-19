@@ -4,7 +4,8 @@
   "description": "19",
   "scripts": {
     "test": "meteor test --once --driver-package dispatch:mocha-phantomjs",
-    "start": "meteor"
+    "start": "meteor",
+    "update": "meteor update --all-packages"
   },
   "repository": {
     "type": "git",
@@ -20,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/fukuyama/nineteenth/issues"
   },
-  "homepage": "https://github.com/fukuyama/nineteenth#readme"
+  "homepage": "https://github.com/fukuyama/nineteenth#readme",
+  "dependencies": {
+    "bcrypt": "^0.8.7"
+  }
 }
